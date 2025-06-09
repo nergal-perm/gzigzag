@@ -22,7 +22,7 @@ ImageSpan.java
  */
 
 
-package org.gzigzag;
+package org.gzigzag.media;
 import java.awt.*;
 
 /** An image span. 

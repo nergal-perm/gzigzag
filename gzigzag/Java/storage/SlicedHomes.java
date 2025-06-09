@@ -20,7 +20,7 @@ SlicedHomes.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.storage;
 import org.gzigzag.*;
 import java.util.*;
 

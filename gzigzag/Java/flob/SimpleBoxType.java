@@ -22,7 +22,7 @@ SimpleBoxType.java
  * Written by Tuomas Lukka, BoxType adaption by Benja Fallenstein
  */
 
-package org.gzigzag;
+package org.gzigzag.flob;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;

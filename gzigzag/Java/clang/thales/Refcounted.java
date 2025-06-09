@@ -20,9 +20,10 @@ Task.java
  */
 
 
-package org.gzigzag.clang.thales.*;
+package org.gzigzag.clang.thales;
 
 interface Refcounted {
     void registerReference();
+
     void unregisterReference();
 }

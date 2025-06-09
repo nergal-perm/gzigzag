@@ -20,19 +20,24 @@ Primitive.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag.heraclitus;
-import org.gzigzag.*;
+package org.gzigzag.clang.heraclitus;
 
-/** An Heraclitus Clang primitive.
+import org.gzigzag.ZZCell;
+
+/**
+ * An Heraclitus Clang primitive.
  * A primitive, just like a subroutine, executes one cell with another
  * as a parameter, and returns another cell.
  */
 
 public interface Primitive {
-String rcsid = "$Id$";
-    /** Execute this primitive.
+    String rcsid = "$Id$";
+
+    /**
+     * Execute this primitive.
+     *
      * @param instance The cell instance (clone) that was originally
-     *			requested to be executed.
+     *         requested to be executed.
      * @param param The parameter given to the execution.
      */
     ZZCell execute(ZZCell instance, ZZCell param);

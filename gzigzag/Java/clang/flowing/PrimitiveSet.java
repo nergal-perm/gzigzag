@@ -20,14 +20,15 @@ PrimitiveSet.java
 /*
  * Written by Tuomas Lukka (for Heraclitus Clang)
  */
-package org.gzigzag.flowing;
-import org.gzigzag.*;
+package org.gzigzag.clang.flowing;
 
-/** A set of Flowing Clang primitives.
+/**
+ * A set of Flowing Clang primitives.
  */
 
 public abstract class PrimitiveSet {
-String rcsid = "$Id: PrimitiveSet.java,v 1.3 2000/10/13 13:52:24 bfallenstein Exp $";
+    String rcsid = "$Id: PrimitiveSet.java,v 1.3 2000/10/13 13:52:24 bfallenstein Exp $";
+
     public abstract Primitive get(String id);
 }
 

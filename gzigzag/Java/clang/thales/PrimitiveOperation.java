@@ -21,9 +21,9 @@ PrimitiveOperation.java
 
 package org.gzigzag.clang.thales;
 
-import org.gzigzag.*;
+import org.gzigzag.ZZCell;
 
-interface PrimitiveOperation {
+public interface PrimitiveOperation {
 
     int parameterCount();
 

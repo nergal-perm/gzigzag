@@ -20,8 +20,9 @@ ZZCacheContentStore.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.storage;
 import java.util.*;
+import org.gzigzag.UndoList;
 
 /** A locally cached content storage, which tracks text changes.
  */

@@ -20,90 +20,106 @@ TestFunctions.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.clang.test;
-import org.gzigzag.*;
-import org.gzigzag.clang.*;
-import junit.framework.*;
+package org.gzigzag.arch.junit.archimedes;
 
-/** Test for the Archimedes Clang Procedural Level
+import junit.framework.TestCase;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZDimSpace;
+import org.gzigzag.clang.Data;
+import org.gzigzag.clang.archimedes.Archimedes;
+import org.gzigzag.clang.archimedes.Expression;
+import org.gzigzag.clang.archimedes.Function;
+import org.gzigzag.clang.archimedes.Namespace;
+
+/**
+ * Test for the Archimedes Clang Procedural Level
  */
 
 public class TestFunctions extends TestCase {
-public static final String rcsid = "$Id: TestFunctions.java,v 1.3 2001/06/16 09:52:05 tjl Exp $";
+    public static final String rcsid = "$Id: TestFunctions.java,v 1.3 2001/06/16 09:52:05 tjl Exp $";
 
-    private static final void pa(String s) { System.out.println(s); }
+    private static final void pa(String s) {
+        System.out.println(s);
+    }
 
-    public TestFunctions(String s) { super(s); }
+    public TestFunctions(String s) {
+        super(s);
+    }
 
     ZZDimSpace sp = new ZZDimSpace();
     ZZCell home = sp.getHomeCell();
     Namespace empty = new Namespace(sp);
 
-    /** Test a function without parameters. */
+    /**
+     * Test a function without parameters.
+     */
     public void testTrivialFunction() {
-	ZZCell main = home.N();
-	main.setText("ten plus two");
-	
-	Expression mul = new Expression(sp, "+");
-	mul.connect(main);
-	mul.set("d.1", -1, 10);
-	mul.set("d.1", 1, 2);
-	
-	Expression func = new Expression(sp, main);
-	
-	int result = Data.i(Archimedes.evaluateExpression(func, empty));
-	assertTrue(result == 12);
+        ZZCell main = home.N();
+        main.setText("ten plus two");
+
+        Expression mul = new Expression(sp, "+");
+        mul.connect(main);
+        mul.set("d.1", -1, 10);
+        mul.set("d.1", 1, 2);
+
+        Expression func = new Expression(sp, main);
+
+        int result = Data.i(Archimedes.evaluateExpression(func, empty));
+        assertTrue(result==12);
     }
 
     public void testFunction() {
-	ZZCell main = home.N();
-	main.setText("three times");
-	ZZCell var = main.N("d.1", 1);
-	Namespace.makeVariable(var);
-	
-	Expression mul = new Expression(sp, "*");
-	mul.connect(main);
-	mul.set("d.1", -1, 3);
-	mul.create("d.1", 1, var);
-	
-	Namespace nam = new Namespace(sp);
-	nam.put(var, 10);
-	int r0 = Data.i(Archimedes.evaluateExpression(mul, nam));
-	assertTrue(r0 == 30);
-	
-	Expression thrice = new Expression(sp, main);
-	thrice.set("d.1", 1, 7);
-	
-	int result = Data.i(Archimedes.evaluateExpression(thrice, empty));
-	assertTrue(result == 21);
+        ZZCell main = home.N();
+        main.setText("three times");
+        ZZCell var = main.N("d.1", 1);
+        Namespace.makeVariable(var);
+
+        Expression mul = new Expression(sp, "*");
+        mul.connect(main);
+        mul.set("d.1", -1, 3);
+        mul.create("d.1", 1, var);
+
+        Namespace nam = new Namespace(sp);
+        nam.put(var, 10);
+        int r0 = Data.i(Archimedes.evaluateExpression(mul, nam));
+        assertTrue(r0==30);
+
+        Expression thrice = new Expression(sp, main);
+        thrice.set("d.1", 1, 7);
+
+        int result = Data.i(Archimedes.evaluateExpression(thrice, empty));
+        assertTrue(result==21);
     }
 
     public void testCascadingFunctions() {
-	Expression mul = new Expression(sp, "*");
-	Function mfn = new Function(sp, mul);
-	mul.create("d.1", -1, mfn.getParam("d.1", 1));
-	mul.create("d.1",  1, mfn.getParam("d.1", 1));
-	
-	Expression add = new Expression(sp, "+");
-	Function afn = new Function(sp, add);
-	add.create("d.1", -1, afn.getParam("d.1", 1));
-	add.create("d.1",  1, afn.getParam("d.1", 1));
-	
-	Expression eq = new Expression(sp, "==");
-	Function fn = new Function(sp, eq);
-	
-	Expression mexp = eq.create("d.1", -1, mfn);
-	mexp.create("d.1", 1, fn.getParam("d.1", 1));
-	
-	Expression aexp = eq.create("d.1",  1, afn);
-	aexp.create("d.1", 1, fn.getParam("d.1", 1));
-	
-	Expression one =   new Expression(sp, fn); one.set("d.1", 1, 1);
-	Expression two =   new Expression(sp, fn); two.set("d.1", 1, 2);
-	Expression three = new Expression(sp, fn); three.set("d.1", 1, 3);
-	
-	assertTrue(!Data.b(Archimedes.evaluateExpression(one, empty)));
-	assertTrue(Data.b(Archimedes.evaluateExpression(two, empty)));
-	assertTrue(!Data.b(Archimedes.evaluateExpression(three, empty)));
+        Expression mul = new Expression(sp, "*");
+        Function mfn = new Function(sp, mul);
+        mul.create("d.1", -1, mfn.getParam("d.1", 1));
+        mul.create("d.1", 1, mfn.getParam("d.1", 1));
+
+        Expression add = new Expression(sp, "+");
+        Function afn = new Function(sp, add);
+        add.create("d.1", -1, afn.getParam("d.1", 1));
+        add.create("d.1", 1, afn.getParam("d.1", 1));
+
+        Expression eq = new Expression(sp, "==");
+        Function fn = new Function(sp, eq);
+
+        Expression mexp = eq.create("d.1", -1, mfn);
+        mexp.create("d.1", 1, fn.getParam("d.1", 1));
+
+        Expression aexp = eq.create("d.1", 1, afn);
+        aexp.create("d.1", 1, fn.getParam("d.1", 1));
+
+        Expression one = new Expression(sp, fn);
+        one.set("d.1", 1, 1);
+        Expression two = new Expression(sp, fn);
+        two.set("d.1", 1, 2);
+        Expression three = new Expression(sp, fn);
+        three.set("d.1", 1, 3);
+
+        assertTrue(!Data.b(Archimedes.evaluateExpression(one, empty)));
+        assertTrue(Data.b(Archimedes.evaluateExpression(two, empty)));
+        assertTrue(!Data.b(Archimedes.evaluateExpression(three, empty)));
     }
 }

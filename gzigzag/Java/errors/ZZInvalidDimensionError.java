@@ -21,13 +21,17 @@ ZZInvalidDimensionError.java
  * Written by Tuomas Lukka
  */
 
-package org.gzigzag;
+package org.gzigzag.errors;
 
-/** A given dimension is invalid.
+/**
+ * A given dimension is invalid.
  */
 
 public class ZZInvalidDimensionError extends ZZError {
-public static final String rcsid = "$Id: ZZInvalidDimensionError.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
-	public ZZInvalidDimensionError(String s) { super(s); }
+    public static final String rcsid = "$Id: ZZInvalidDimensionError.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
+
+    public ZZInvalidDimensionError(String s) {
+        super(s);
+    }
 }
 

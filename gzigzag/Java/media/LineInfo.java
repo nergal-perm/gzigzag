@@ -20,7 +20,7 @@ LineInfo.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.media;
 
 /** An interface for line breaking algorithms to query about line widths.
  * The LineBreaker interface allows many different line breaking algorithms.

@@ -20,10 +20,13 @@ TestTemplate.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.clang.test;
+package org.gzigzag.arch.junit.archimedes;
 import org.gzigzag.*;
 import org.gzigzag.clang.*;
 import junit.framework.*;
+import org.gzigzag.clang.archimedes.Expression;
+import org.gzigzag.clang.archimedes.Namespace;
+import org.gzigzag.clang.archimedes.ParamTemplate;
 
 /** Test Archimedes' parameter template.
  */

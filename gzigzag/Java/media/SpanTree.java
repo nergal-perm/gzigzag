@@ -21,7 +21,7 @@ SpanTree.java
  * Written by Tuomas Lukka
  */
 
-package org.gzigzag;
+package org.gzigzag.media;
 import java.util.*;
 
 /** A structure for putting spans in and obtaining the 

@@ -21,10 +21,14 @@ Address.java
  * Written by Tuomas Lukka
  */
 
-package org.gzigzag;
-import java.util.*;
+package org.gzigzag.media;
 
-/** An address in a stable media stream.
+import java.util.StringTokenizer;
+import org.gzigzag.ZZSpace;
+import org.gzigzag.errors.ZZError;
+
+/**
+ * An address in a stable media stream.
  * Currently just a silly pointer but will be later extended
  * to include full tumblers.
  * Format: streamid.offset, where streamid is an alphanumeric string
@@ -32,64 +36,75 @@ import java.util.*;
  */
 
 public class Address {
-public static final String rcsid = "$Id: Address.java,v 1.3 2000/09/19 10:32:00 ajk Exp $";
-	public static final boolean dbg = false;
-	static final void p(String s) { if(dbg) System.out.println(s); }
+    public static final String rcsid = "$Id: Address.java,v 1.3 2000/09/19 10:32:00 ajk Exp $";
+    public static final boolean dbg = false;
 
-	Scroll scroll;
-	String stream;
-	long offset;
-	public static Address parse(String s) {
-		StringTokenizer st = new StringTokenizer(s, ".");
-		if(st.countTokens() != 2) {
-			throw new ZZError("Wrong number of toks in '"+s+"'");
-		}
-		Address a = new Address();
-		a.stream = st.nextToken();
-		a.offset = Long.parseLong(st.nextToken());
-		return a;
-	}
+    static final void p(String s) {
+        if (dbg) System.out.println(s);
+    }
 
-	public static Address streamOffs(String s, long offs) {
-		Address a = new Address();
-		a.stream = s;
-		a.offset = offs;
-		return a;
-	}
-	public static Address scrollOffs(Scroll s, long offs) {
-		// return s.getId() + "." + offs;
-		Address a = new Address();
-		a.stream = s.getId();
-		a.offset = offs;
-		return a;
-	}
+    Scroll scroll;
+    String stream;
+    long offset;
 
-	public String getStream() { return stream; }
-	public Scroll getScroll(ZZSpace s) { 
-		if(scroll==null) scroll = Scroll.obtain(s, stream);
-		return scroll;
-	}
-	public long getOffs() { return offset; }
+    public static Address parse(String s) {
+        StringTokenizer st = new StringTokenizer(s, ".");
+        if (st.countTokens()!=2) {
+            throw new ZZError("Wrong number of toks in '" + s + "'");
+        }
+        Address a = new Address();
+        a.stream = st.nextToken();
+        a.offset = Long.parseLong(st.nextToken());
+        return a;
+    }
 
-	public String toString() {
-		return stream.toString() + "." + offset;
-	}
+    public static Address streamOffs(String s, long offs) {
+        Address a = new Address();
+        a.stream = s;
+        a.offset = offs;
+        return a;
+    }
 
-	public boolean lessThan(Address a) {
-	    int c = stream.compareTo(a.stream);
-	    if(c < 0) return true; 
-	    if(c > 0) return false;
-	    if(offset < a.offset) return true;
-	    return false;
-	}
+    public static Address scrollOffs(Scroll s, long offs) {
+        // return s.getId() + "." + offs;
+        Address a = new Address();
+        a.stream = s.getId();
+        a.offset = offs;
+        return a;
+    }
 
-	public Address addOffs(int o) {
-	    Address a = new Address();
-	    a.scroll = scroll;
-	    a.stream = stream;
-	    a.offset = offset + o;
-	    return a;
-	}
+    public String getStream() {
+        return stream;
+    }
+
+    public Scroll getScroll(ZZSpace s) {
+        if (scroll==null) scroll = Scroll.obtain(s, stream);
+        return scroll;
+    }
+
+    public long getOffs() {
+        return offset;
+    }
+
+    public String toString() {
+        return stream.toString() + "." + offset;
+    }
+
+    public boolean lessThan(Address a) {
+        int c = stream.compareTo(a.stream);
+        if (c < 0) return true;
+        if (c > 0) return false;
+        if (offset < a.offset) return true;
+        return false;
+    }
+
+    public Address addOffs(int o) {
+        Address a = new Address();
+        a.scroll = scroll;
+        a.stream = stream;
+        a.offset = offset + o;
+        return a;
+    }
 
 }
 

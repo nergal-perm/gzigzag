@@ -19,10 +19,18 @@ If.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.clang.thales.primitive;
+package org.gzigzag.clang.thales.primitives;
 
-import org.gzigzag.clang.thales.*;
+import org.gzigzag.ZZCell;
+import org.gzigzag.clang.thales.syntaxforms.Primitive;
 
 public class If extends Primitive {
 
+    public If(ZZCell c) {
+        super(c);
+    }
+
+    public If(ZZCell expr, ZZCell rvc) {
+        super(expr, rvc);
+    }
 }

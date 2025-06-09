@@ -20,96 +20,113 @@ ZZSoundView.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.awt.*;
+package org.gzigzag.media;
 
-/** A view showing a sound vstream on a sound scroll.
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZViewComponent;
+
+/**
+ * A view showing a sound vstream on a sound scroll.
  * Assumes that all cells in the d.2 rank come from the same scroll.
  */
 
 public class ZZSoundView extends ZZViewComponent {
-public static final String rcsid = "$Id: ZZSoundView.java,v 1.8 2000/11/01 08:12:49 tjl Exp $";
-	public static boolean dbg = true;
-	void p(String s) { if(dbg) System.out.println(s); }
-	void pa(String s) { System.out.println(s); }
+    public static final String rcsid = "$Id: ZZSoundView.java,v 1.8 2000/11/01 08:12:49 tjl Exp $";
+    public static boolean dbg = true;
 
-	public ZZSoundView(ZZCell viewCell0) {
-		super(viewCell0);
-		setBackground(new Color(150,150,255));
-	}
+    void p(String s) {
+        if (dbg) System.out.println(s);
+    }
 
-	ZZCell[] rank;
-	int[] t0; int[] t1; // in pixels
+    void pa(String s) {
+        System.out.println(s);
+    }
 
-	int top = 10; int bottom = 10;
-	int right = 10;
+    public ZZSoundView(ZZCell viewCell0) {
+        super(viewCell0);
+        setBackground(new Color(150, 150, 255));
+    }
 
-	public boolean reraster() { return false; }
+    ZZCell[] rank;
+    int[] t0;
+    int[] t1; // in pixels
 
-	public void paintInto(Graphics gr) {
-	  synchronized(viewCell.getSpace()) {
-	  	Dimension size = getSize();
+    int top = 10;
+    int bottom = 10;
+    int right = 10;
 
-		Insets ins = getInsets();
-		gr.setColor(getBackground());
-                gr.fillRect(ins.left, ins.top, 
-		    size.width-ins.left-ins.right, size.height-ins.top-ins.bottom);
-		gr.setColor(Color.black);
+    public boolean reraster() {
+        return false;
+    }
 
-		// assume vertical display - that way putting in transcription text is easy
+    public void paintInto(Graphics gr) {
+        synchronized (viewCell.getSpace()) {
+            Dimension size = getSize();
 
-		ZZCell cursor = viewCell.h("d.cursor-cargo",-1).
-				    h("d.cursor", -1);
-		Span s = cursor.getSpan();
-		if(s==null) {
-			gr.drawString("Not a span", 0, size.height/2);
-			return;
-		}
-		Address start = s.getStart();
-		Address end = s.getEnd();
+            Insets ins = getInsets();
+            gr.setColor(getBackground());
+            gr.fillRect(ins.left, ins.top,
+                    size.width - ins.left - ins.right, size.height - ins.top - ins.bottom);
+            gr.setColor(Color.black);
 
-		Scroll scr0 = start.getScroll(viewCell.getSpace());
-		if(!(scr0 instanceof SoundScroll)) {
-			gr.drawString("Wrong type:"+scr0, 0, size.height/2);
-			return;
-		}
-		SoundScroll scr = (SoundScroll)scr0;
+            // assume vertical display - that way putting in transcription text is easy
 
-		long len = scr.getDurationNanoseconds();
+            ZZCell cursor = viewCell.h("d.cursor-cargo", -1).
+                                    h("d.cursor", -1);
+            Span s = cursor.getSpan();
+            if (s==null) {
+                gr.drawString("Not a span", 0, size.height / 2);
+                return;
+            }
+            Address start = s.getStart();
+            Address end = s.getEnd();
 
-		ZZCell h = cursor.h("d.2", -1);
-		rank = h.readRank("d.2", 1, true, null);
+            Scroll scr0 = start.getScroll(viewCell.getSpace());
+            if (!(scr0 instanceof SoundScroll)) {
+                gr.drawString("Wrong type:" + scr0, 0, size.height / 2);
+                return;
+            }
+            SoundScroll scr = (SoundScroll) scr0;
 
-		t0 = new int[rank.length];
-		t1 = new int[rank.length];
+            long len = scr.getDurationNanoseconds();
 
-		int l = size.height - top - bottom;
+            ZZCell h = cursor.h("d.2", -1);
+            rank = h.readRank("d.2", 1, true, null);
 
-		gr.drawLine(right, top, right, size.height-bottom);
+            t0 = new int[rank.length];
+            t1 = new int[rank.length];
 
-		for(int i=0; i<rank.length; i++) {
-			Span sp = rank[i].getSpan();
-			if(sp==null) return;
-			Address curstart = sp.getStart();
-			Address curend = sp.getEnd();
-			t0[i] = (int)((l*curstart.getOffs())/len);
-			t1[i] = (int)((l*curend.getOffs())/len);
+            int l = size.height - top - bottom;
 
-			
-			if(rank[i] == cursor)
-				gr.setColor(Color.white);
+            gr.drawLine(right, top, right, size.height - bottom);
 
-			gr.drawLine(right, t0[i], right+5, t0[i]);
-			gr.drawLine(right, t1[i], right+5, t1[i]);
-			gr.drawLine(right+1, t0[i], right+1, t1[i]);
-			gr.drawLine(right+2, t0[i], right+2, t1[i]);
-
-			if(rank[i] == cursor)
-				gr.setColor(Color.black);
-		}
+            for (int i = 0; i < rank.length; i++) {
+                Span sp = rank[i].getSpan();
+                if (sp==null) return;
+                Address curstart = sp.getStart();
+                Address curend = sp.getEnd();
+                t0[i] = (int) ((l * curstart.getOffs()) / len);
+                t1[i] = (int) ((l * curend.getOffs()) / len);
 
 
-	  }
-	}
-	
+                if (rank[i]==cursor)
+                    gr.setColor(Color.white);
+
+                gr.drawLine(right, t0[i], right + 5, t0[i]);
+                gr.drawLine(right, t1[i], right + 5, t1[i]);
+                gr.drawLine(right + 1, t0[i], right + 1, t1[i]);
+                gr.drawLine(right + 2, t0[i], right + 2, t1[i]);
+
+                if (rank[i]==cursor)
+                    gr.setColor(Color.black);
+            }
+
+
+        }
+    }
+
 }

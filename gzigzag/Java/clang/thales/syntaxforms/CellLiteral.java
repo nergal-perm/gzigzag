@@ -19,26 +19,32 @@ CellLiteral.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.clang.thales.syntaxform;
+package org.gzigzag.clang.thales.syntaxforms;
 
 import org.gzigzag.*;
 import org.gzigzag.clang.thales.*;
 
 class CellLiteral extends SyntaxForm {
+    private final Rep rep;
+
     // Runtime representation: basecell -> rvcc -> litc on d.1 posward
     private final class Rep {
         public ZZCell rvcc; // pointer to the return value pointer
         public ZZCell rvc; // dereferenced rvcc
         public ZZCell litc; // pointer to literal value
 
-        /** Create from existing structure. */
+        /**
+         * Create from existing structure.
+         */
         public Rep() {
             rvcc = getBaseCell().s("d.1", 1);
             rvc = ZZCursorReal.get(rvcc);
             litc = rvcc.s("d.1", 1);
         }
 
-        /** Create also a new structure. */
+        /**
+         * Create also a new structure.
+         */
         public Rep(ZZCell lit, ZZCell rvc) {
             this.rvc = rvc;
             rvcc = getBaseCell().N("d.1", 1);
@@ -55,21 +61,20 @@ class CellLiteral extends SyntaxForm {
 
     public CellLiteral(ZZCell c, Evaluator etor) {
         super(c, etor);
+        this.rep = new Rep();
     }
 
     public CellLiteral(ZZCell expr, ZZCell rvc, Evaluator etor) {
-        super(SyntaxForm.newRT(rvc.getSpace(), this.getClass()), etor);
-        Rep rep(ZZCursorReal.get(expr), rvc);
+        super(SyntaxForm.newRT(rvc.getSpace(), CellLiteral.class), etor);
+        this.rep = new Rep(ZZCursorReal.get(expr), rvc);
     }
 
     public void evalIteration() {
-        Rep rep;
-        ZZCursorReal.set(rep.rvc, ZZCursorReal.get(rep.litc));
+        ZZCursorReal.set(this.rep.rvc, ZZCursorReal.get(rep.litc));
         finishEval();
     }
 
     protected void delete() {
-        Rep rep;
         rep.delete();
     }
 }

@@ -21,12 +21,12 @@ ZZClangContextReal.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag.clang;
-import org.gzigzag.*;
 
 class EUNRNBRRV {
 }
 
-/** A real viewspecs -context object for Clang.
+/**
+ * A real viewspecs -context object for Clang.
  */
 
 /*

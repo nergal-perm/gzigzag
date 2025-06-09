@@ -21,24 +21,26 @@ Callable.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.clang;
-import org.gzigzag.*;
+package org.gzigzag.clang.archimedes;
 
-/** An Archimedes Procedural Layer callable (primitive or function definition).
+import org.gzigzag.ZZCell;
+
+/**
+ * An Archimedes Procedural Layer callable (primitive or function definition).
  */
 
 public abstract class Callable {
-String rcsid = "$Id: Callable.java,v 1.3 2001/04/13 22:42:51 bfallenstein Exp $";
+    String rcsid = "$Id: Callable.java,v 1.3 2001/04/13 22:42:51 bfallenstein Exp $";
 
     public abstract ZZCell evaluate(Expression exp, Namespace context);
 
     public static final Callable get(ZZCell c) {
-	ZZCell root = c.getRootclone();
-	
-	if(root.h("d.expression", true) != null)
-	    return new Function(root);
-	else
-	    return AllPrimitives.get(root);
+        ZZCell root = c.getRootclone();
+
+        if (root.h("d.expression", true)!=null)
+            return new Function(root);
+        else
+            return AllPrimitives.get(root);
     }
 
 }

@@ -20,7 +20,7 @@ TestLines.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.media;
 import java.util.*;
 import java.io.*;
 import java.awt.*;
@@ -35,16 +35,16 @@ public static final String rcsid = "$Id: TestLines.java,v 1.10 2001/02/23 15:01:
 
     Frame f = new Frame();
 
-/* Jikes won't eat this any more in new versions due to äö.
+/* Jikes won't eat this any more in new versions due to ï¿½ï¿½.
     static final String str = "Pikku stringi testataksemme rivinpilkkomista. "+
-"Tällä kertaa kirjoitammekin sen suomeksi - englanninkielisiä lukijoitamme "+
-"varmaankin hämmästyttää. Etenkin ääkköset. Tämä merkkijono piirretään "+
-"näytölle monta kertaa erilaisena, siis \"kursori\" eri kohdalle laitettuna. "+
-"Tästä voidaan sitten nähdä, toimiiko rivien pilkkominen palasiksi oikein. " +
-"Itse asiassa merkkijonoa tulee vielä jonkin verran pidentää koska muuten " +
-"emme ehdi nähdä kaikkia efektejä. Hauskaahan tästä tulee vasta sitten " +
-"kun voimme oikeasti muokata näin näytettyä tekstiä mutta tämä testi on " +
-"tärkeä askel siihen suuntaan mentäessä."
+"Tï¿½llï¿½ kertaa kirjoitammekin sen suomeksi - englanninkielisiï¿½ lukijoitamme "+
+"varmaankin hï¿½mmï¿½styttï¿½ï¿½. Etenkin ï¿½ï¿½kkï¿½set. Tï¿½mï¿½ merkkijono piirretï¿½ï¿½n "+
+"nï¿½ytï¿½lle monta kertaa erilaisena, siis \"kursori\" eri kohdalle laitettuna. "+
+"Tï¿½stï¿½ voidaan sitten nï¿½hdï¿½, toimiiko rivien pilkkominen palasiksi oikein. " +
+"Itse asiassa merkkijonoa tulee vielï¿½ jonkin verran pidentï¿½ï¿½ koska muuten " +
+"emme ehdi nï¿½hdï¿½ kaikkia efektejï¿½. Hauskaahan tï¿½stï¿½ tulee vasta sitten " +
+"kun voimme oikeasti muokata nï¿½in nï¿½ytettyï¿½ tekstiï¿½ mutta tï¿½mï¿½ testi on " +
+"tï¿½rkeï¿½ askel siihen suuntaan mentï¿½essï¿½."
 ;
 
 */

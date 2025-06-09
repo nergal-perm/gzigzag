@@ -38,7 +38,7 @@ String rcsid = "$Id: ZZObsTrigger.java,v 1.7 2001/04/17 16:40:59 ajk Exp $";
     private static Hashtable obsQueue = new Hashtable();
     private static Hashtable obsDisabled = new Hashtable();
 
-    ZZObsTrigger() {
+    public ZZObsTrigger() {
 	allTrigs.addElement(this);
     }
 

@@ -20,13 +20,18 @@ SimpleContentFile.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.util.*;
-import java.io.*;
+package org.gzigzag.storage;
 
-/** A simple content file format.
+import java.io.*;
+import org.gzigzag.ZZLogger;
+import org.gzigzag.errors.ZZError;
+import org.gzigzag.errors.ZZFatalError;
+import org.gzigzag.media.Span;
+
+/**
+ * A simple content file format.
  * The format consists of records: s(cell)(string), S(cell)(span),
- * t(time4). Currently spans are stored in their stringized format 
+ * t(time4). Currently spans are stored in their stringized format
  * but this may be changed later.
  * <p>
  * The record types are defined by the ASCII values of the above characters.
@@ -35,95 +40,98 @@ import java.io.*;
  */
 
 public class SimpleContentFile implements ContentStorer, GZZ0.Runner {
-public static final String rcsid = "$Id: SimpleContentFile.java,v 1.6 2000/09/19 10:32:00 ajk Exp $";
+    public static final String rcsid = "$Id: SimpleContentFile.java,v 1.6 2000/09/19 10:32:00 ajk Exp $";
 
     final byte rString = 115;
     final byte rSpan = 83;
 
     ContentStorer sto;
+
     public void startRead(ContentStorer sto) {
-	this.sto = sto;
+        this.sto = sto;
     }
+
     public void endRead() {
-	sto = null;
+        sto = null;
     }
 
     public int getContentType() {
-	return 43;
+        return 43;
     }
+
     public int getContentVersion() {
-	return 0;
+        return 0;
     }
 
 
     public void readRun(InputStream is) {
-	DataInputStream dis = new DataInputStream(is);
-	boolean eofOk = true;
-	try {
-	    while(true) {
-		eofOk = true;
-		byte rectype = dis.readByte();
-		eofOk = false;
-		switch(rectype) {
-		case rString: {
-		    String id = dis.readUTF();
-		    String ct = dis.readUTF();
-		    sto.putContent(id, ct); }
-		    break;
-		case rSpan: {
-		    String id = dis.readUTF();
-		    String cts = dis.readUTF();
-		    Span sp = Span.parse(cts);
-		    sto.putContent(id, sp); }
-		    break;
-		default:
-		    throw new ZZFatalError("Invalid record");
-		}
-	    }
-	} catch(EOFException e) {
-	    if(!eofOk)
-		throw new ZZError("Unexpected eof in simpledimfile");
-	} catch(IOException e) {
-	    ZZLogger.exc(e);
-	    throw new ZZFatalError("Reading file");
-	}
+        DataInputStream dis = new DataInputStream(is);
+        boolean eofOk = true;
+        try {
+            while (true) {
+                eofOk = true;
+                byte rectype = dis.readByte();
+                eofOk = false;
+                switch (rectype) {
+                    case rString: {
+                        String id = dis.readUTF();
+                        String ct = dis.readUTF();
+                        sto.putContent(id, ct);
+                    }
+                    break;
+                    case rSpan: {
+                        String id = dis.readUTF();
+                        String cts = dis.readUTF();
+                        Span sp = Span.parse(cts);
+                        sto.putContent(id, sp);
+                    }
+                    break;
+                    default:
+                        throw new ZZFatalError("Invalid record");
+                }
+            }
+        } catch (EOFException e) {
+            if (!eofOk) throw new ZZError("Unexpected eof in simpledimfile");
+        } catch (IOException e) {
+            ZZLogger.exc(e);
+            throw new ZZFatalError("Reading file");
+        }
     }
 
     DataOutputStream dos;
 
     public void putContent(String id, Object ct) {
-	if(ct == null)
-	    throw new ZZFatalError("Tried to store null content!");
-	try {
-	    if(ct instanceof String) {
-		dos.writeByte(rString);
-		dos.writeUTF(id);
-		dos.writeUTF((String)ct);
-	    } else if(ct instanceof Span) {
-		dos.writeByte(rSpan);
-		dos.writeUTF(id);
-		dos.writeUTF(((Span)ct).toString());
-	    } else {
-		throw new ZZFatalError("Can't put odd object: "+ct);
-	    }
-	} catch(IOException e) {
-	    ZZLogger.exc(e);
-	    throw new ZZFatalError("Reading file");
-	}
+        if (ct==null) throw new ZZFatalError("Tried to store null content!");
+        try {
+            if (ct instanceof String) {
+                dos.writeByte(rString);
+                dos.writeUTF(id);
+                dos.writeUTF((String) ct);
+            } else if (ct instanceof Span) {
+                dos.writeByte(rSpan);
+                dos.writeUTF(id);
+                dos.writeUTF(((Span) ct).toString());
+            } else {
+                throw new ZZFatalError("Can't put odd object: " + ct);
+            }
+        } catch (IOException e) {
+            ZZLogger.exc(e);
+            throw new ZZFatalError("Reading file");
+        }
     }
 
     public void startWrite(OutputStream dos) {
-	this.dos = new DataOutputStream(dos);
+        this.dos = new DataOutputStream(dos);
     }
 
     public void endWrite() {
-	try {
-	    dos.flush();
-	    dos = null;
-	} catch(IOException e) {
-	    ZZLogger.exc(e);
-	    throw new ZZFatalError("Reading file");
-	}
+        try {
+            dos.flush();
+            dos = null;
+        } catch (IOException e) {
+            ZZLogger.exc(e);
+            throw new ZZFatalError("Reading file");
+        }
     }
-    
+
 }

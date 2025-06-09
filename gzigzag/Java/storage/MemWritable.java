@@ -20,7 +20,7 @@ MemWritable.java
 /*
  * Written by Benjamin Fallenstein
  */
-package org.gzigzag;
+package org.gzigzag.storage;
 import java.util.*;
 
 /** A writable that stores its contents in memory.

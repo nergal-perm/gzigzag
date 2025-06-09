@@ -21,7 +21,7 @@ ZZCellScroll.java
  * Written by Tuomas Lukka
  */
 
-package org.gzigzag;
+package org.gzigzag.media;
 
 import java.io.*;
 

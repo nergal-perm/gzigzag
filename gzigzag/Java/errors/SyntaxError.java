@@ -19,10 +19,10 @@ SyntaxError.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag;
-
-import org.gzigzag.*;
+package org.gzigzag.errors;
 
 public class SyntaxError extends ZZError {
-    public SyntaxError(String s) { super(s); }
+    public SyntaxError(String s) {
+        super(s);
+    }
 }

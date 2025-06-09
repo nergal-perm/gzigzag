@@ -21,17 +21,20 @@ ZZClangOp.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag.clang;
-import org.gzigzag.*;
-import java.util.*;
 
-/** A primitive operation for Clang.
- * NOT YET FINISHED! 
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZCursor;
+
+/**
+ * A primitive operation for Clang.
+ * NOT YET FINISHED!
  */
 
 public interface ZZClangOp {
-String rcsid = "$Id: ZZClangOp.java,v 1.3 2000/09/19 10:31:58 ajk Exp $";
+    String rcsid = "$Id: ZZClangOp.java,v 1.3 2000/09/19 10:31:58 ajk Exp $";
 
-    /** Execute the operation.
+    /**
+     * Execute the operation.
      * The op is to start at cell c and go poswards on d.1 to find
      * its parameters, with which it can call the ctxt object to find
      * out the values.
@@ -39,6 +42,7 @@ String rcsid = "$Id: ZZClangOp.java,v 1.3 2000/09/19 10:31:58 ajk Exp $";
      * The cursor crs may or may not be the actual cursor of the viewcell
      * of the context: it may also be given negwards on d.1 from the object
      * to allow ops to act on other cursors easily.
+     *
      * @param c The cell that made this routine to be called.
      * @param crs The main cursor
      * @param ctxt The context of the operation.
@@ -53,7 +57,8 @@ String rcsid = "$Id: ZZClangOp.java,v 1.3 2000/09/19 10:31:58 ajk Exp $";
      * to appear in the future.
      */
 
-    /** Return the name of this operation.
+    /**
+     * Return the name of this operation.
      */
     String name();
 }

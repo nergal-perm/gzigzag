@@ -309,7 +309,8 @@ public static final String rcsid = "$Id: ReliableUDPSocket.java,v 1.3 2001/03/18
                     Peer[] ps = getActivePeers();
                     for (int i = 0; i < ps.length; i++) {
                         getPeer(ps[i]).flush();
-                        yield();
+                        // TODO: Что-то с этим нужно сделать
+                        //yield();
                     }
                 } catch (InterruptedException e) {
                     interrupt();

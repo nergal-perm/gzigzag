@@ -20,44 +20,62 @@ SoundScroll.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.io.*;
-import java.util.*;
+package org.gzigzag.media;
 
-/** A scroll of sound. 
+import java.io.File;
+import java.util.Vector;
+import org.gzigzag.SoundObs;
+
+/**
+ * A scroll of sound.
  * The fact that you need to specify the duraction when creating is not good but
  * we can fix that later somehow.
  */
 public class SoundScroll extends Scroll {
-public static final String rcsid = "$Id: SoundScroll.java,v 1.3 2000/09/19 10:32:00 ajk Exp $";
+    public static final String rcsid = "$Id: SoundScroll.java,v 1.3 2000/09/19 10:32:00 ajk Exp $";
 
     // public abstract void preparePlayer();
-    /** XXX change to play(Span) and get the next at runtime?
+
+    /**
+     * XXX change to play(Span) and get the next at runtime?
      */
-    protected SoundScroll(String i) { super(i); }
+    protected SoundScroll(String i) {
+        super(i);
+    }
 
     Vector obses = new Vector();
+
     public void addObs(SoundObs o) {
-	    obses.addElement(o);
+        obses.addElement(o);
     }
+
     protected void inform(int event, long l) {
-	    for(int i = 0; i<obses.size(); i++)
-		    ((SoundObs)obses.elementAt(i)).playingAt(event,l);
+        for (int i = 0; i < obses.size(); i++)
+            ((SoundObs) obses.elementAt(i)).playingAt(event, l);
     }
 
     // Cheat: it's currently just a file.
     File f;
-    public File getFile() { return f; }
-    long d;
-    public long getDurationNanoseconds() { return d; }
-    public SoundScroll(String id, File fn, long dur) {
-	super(id);
-	f = fn;
-	d = dur;
+
+    public File getFile() {
+        return f;
     }
+
+    long d;
+
+    public long getDurationNanoseconds() {
+        return d;
+    }
+
+    public SoundScroll(String id, File fn, long dur) {
+        super(id);
+        f = fn;
+        d = dur;
+    }
+
     public SoundScroll(String id, String fn, long dur) {
-	super(id);
-	f = new File(fn);
-	d = dur;
+        super(id);
+        f = new File(fn);
+        d = dur;
     }
 }

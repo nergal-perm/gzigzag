@@ -32,6 +32,10 @@ ZZSpace.java
 
 package org.gzigzag;
 import java.util.*;
+import org.gzigzag.errors.ZZError;
+import org.gzigzag.media.Span;
+import org.gzigzag.media.StringScroll;
+
 /** A simple ZZ interface for a ZZ space.
  * This abstract class defines all the elementary operations
  * for a ZZ space. Note though, that many operations are done to

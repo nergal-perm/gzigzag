@@ -20,51 +20,63 @@ VobSet.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.util.*;
-import java.awt.*;
+package org.gzigzag.flob;
 
-/** A draft for a new interface to FlobSet.
+import java.awt.Color;
+import java.awt.Rectangle;
+import org.gzigzag.ZZScene;
+
+/**
+ * A draft for a new interface to FlobSet.
  * The point is that this interface can be implemented by several
- * things and we can make dfferent views interact in interesting 
+ * things and we can make dfferent views interact in interesting
  * ways.
  * <p>
  * A VobSet can be thought of as a window in some ways...
  */
 
 abstract public class VobSet implements ZZScene {
-public static final String rcsid = "$Id: VobSet.java,v 1.1 2000/12/11 02:54:10 tjl Exp $";
+    public static final String rcsid = "$Id: VobSet.java,v 1.1 2000/12/11 02:54:10 tjl Exp $";
 
     public static final boolean dbg = true;
-    static final void p(String s) { if(dbg) System.out.println(s); }
-    static final void pa(String s) { System.out.println(s); }
+
+    static final void p(String s) {
+        if (dbg) System.out.println(s);
+    }
+
+    static final void pa(String s) {
+        System.out.println(s);
+    }
 
     abstract public Rectangle getBounds();
+
     abstract public int getDepth();
 
     // XXX Make it use ZZDrawing2D to get the bg paint.
     abstract public Color getBackground();
 
     abstract public void add(Renderable r);
+
     abstract public void add(Flob f);
 
     // ??? protected void depthColor(Graphics g, int depth) {
 
     abstract public void dump();
 
-    /** A callback interface for iterating over the Flobs
+    /**
+     * A callback interface for iterating over the Flobs
      * in a FlobSet in depth order.
      */
     public interface DepthIter {
-	void act(Flob[] flobs, int start, int n);
+        void act(Flob[] flobs, int start, int n);
     }
 
-    /** Iterate a routine over a blocks of same-depth flobs.
+    /**
+     * Iterate a routine over a blocks of same-depth flobs.
      */
     abstract public void iterDepth(DepthIter di, boolean frontFirst);
 
 
-	
     // XXX Spanset?
     // abstract public SpanFlob[] findFlobs(Span s);
 

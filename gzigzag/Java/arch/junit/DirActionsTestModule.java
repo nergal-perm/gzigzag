@@ -20,40 +20,45 @@ DirActionsTestModule.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.module;
-import org.gzigzag.test.TestModuleDirActions;
-import java.awt.*;
-import org.gzigzag.*;
+package org.gzigzag.arch.junit;
 
-/** Helper class for TestModuleDirActions.
- *  @see org.gzigzag.test.TestModuleDirActions
+import java.awt.Point;
+import org.gzigzag.*;
+import org.gzigzag.errors.ZZError;
+
+/**
+ * Helper class for TestModuleDirActions.
+ *
+ * @see TestModuleDirActions
  */
 
 public class DirActionsTestModule {
-public static final String rcsid = "$Id: DirActionsTestModule.java,v 1.1 2001/04/18 21:40:51 bfallenstein Exp $";
+    public static final String rcsid = "$Id: DirActionsTestModule.java,v 1.1 2001/04/18 21:40:51 bfallenstein Exp $";
 
-    private static final void pa(String s) { System.out.println(s); }
+    private static final void pa(String s) {
+        System.out.println(s);
+    }
 
     public static ZZModule module = new ZZModule() {
         public void action(String id,
-	    ZZCell code, 
-	    ZZCell target,
-	    ZZView view, ZZView cview, String key, Point pt, ZZScene xi) {
-	
-	    if(id.equals("STORE")) {
-		ZZDefaultSpace.storeDirActionWaiting(view.getViewcell(), 
-						"DirActionsTestModule.TEST");
-	    }
+                           ZZCell code,
+                           ZZCell target,
+                           ZZView view, ZZView cview, String key, Point pt, ZZScene xi) {
+
+            if (id.equals("STORE")) {
+                ZZDefaultSpace.storeDirActionWaiting(view.getViewcell(),
+                        "DirActionsTestModule.TEST");
+            }
         }
 
-        public void dirAction(String id, ZZCell win, ZZCell accursed, 
-			      String vdim, int dir, ZZCell dataWin,
-			      ZZCell ctrlWin, ZZCell code) {
-	    if(id.equals("TEST")) {
-		TestModuleDirActions.dim = vdim;
-		TestModuleDirActions.dir = dir;
-	    } else
-		throw new ZZError("Unknown DirActionsTestModule dirAction: "+id);
+        public void dirAction(String id, ZZCell win, ZZCell accursed,
+                              String vdim, int dir, ZZCell dataWin,
+                              ZZCell ctrlWin, ZZCell code) {
+            if (id.equals("TEST")) {
+                TestModuleDirActions.dim = vdim;
+                TestModuleDirActions.dir = dir;
+            } else
+                throw new ZZError("Unknown DirActionsTestModule dirAction: " + id);
         }
     };
 

@@ -19,17 +19,29 @@ Primitive.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.clang.thales.syntaxform;
+package org.gzigzag.clang.thales.syntaxforms;
 
-import org.gzigzag.*;
-import org.gzigzag.clang.thales.*;
-import java.util.*;
+import java.util.Hashtable;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZCursorReal;
+import org.gzigzag.ZZSpace;
+import org.gzigzag.clang.thales.DimensionNames;
+import org.gzigzag.clang.thales.PrimitiveOperation;
+import org.gzigzag.clang.thales.SyntaxForm;
+import org.gzigzag.errors.ZZError;
 
 public class Primitive extends SyntaxForm {
-public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:31 tjl Exp $";
+    public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:31 tjl Exp $";
     public static boolean dbg = false;
-    final static void p(String s) { if(dbg) System.out.println(s); }
-    final static void pa(String s) { System.out.println(s); }
+    private final Rep rep;
+
+    final static void p(String s) {
+        if (dbg) System.out.println(s);
+    }
+
+    final static void pa(String s) {
+        System.out.println(s);
+    }
 
     // Runtime representation basecell -> rvcc -> primc posward on d.1
     private final class Rep {
@@ -38,7 +50,9 @@ public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:3
         public ZZCell primc; // pointer to the primitive cell
         public ZZCell prim;  // the primitive cell
 
-        /** Create from existing structure. */
+        /**
+         * Create from existing structure.
+         */
         public Rep() {
             rvcc = getBaseCell().s("d.1", 1);
             rvc = ZZCursorReal.get(rvcc);
@@ -46,7 +60,9 @@ public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:3
             prim = ZZCursorReal.get(rvc);
         }
 
-        /** Create also a new structure. */
+        /**
+         * Create also a new structure.
+         */
         public Rep(ZZCell prim, ZZCell rvc) {
             this.rvc = rvc;
             rvcc = getBaseCell().N("d.1", 1);
@@ -62,15 +78,17 @@ public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:3
         }
     }
 
-    public Primitive(ZZCell c) { super(c); }
+    public Primitive(ZZCell c) {
+        super(c);
+        this.rep = new Rep();
+    }
+
     public Primitive(ZZCell expr, ZZCell rvc) {
         super(rvc.getSpace());
-        Rep rep(expr.h("d.clone", -1), rvc);
+        this.rep = new Rep(expr.h("d.clone", -1), rvc);
     }
 
     public void evalIteration() {
-        Rep rep;
-
         ZZCell rv = rep.rvc.N();
         rv.connect(DimensionNames.applicable, 1, rep.prim);
         ZZCursorReal.set(rep.rvc, rv);
@@ -78,53 +96,53 @@ public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:3
     }
 
     public void delete() {
-        Rep rep;
         rep.delete();
     }
 
 
-
     static private Hashtable prims = new Hashtable();
     static private Hashtable optocell = new Hashtable();
-    
+
     static public PrimitiveOperation get(ZZCell c) {
         ZZCell id = c.h("d.clone", -1);
         synchronized (prims) {
             return (PrimitiveOperation) prims.get(id);
         }
     }
-    
+
     static public class PrimitiveProblemException extends ZZError {
         public PrimitiveProblemException(String s) {
             super(s);
         }
     }
-    
+
     static public class DuplicateException extends PrimitiveProblemException {
         public DuplicateException() {
             this("duplicate Thales Clang primitive cell");
         }
+
         public DuplicateException(String s) {
             super(s);
         }
     }
-    
+
     static public class InvalidException extends PrimitiveProblemException {
         public InvalidException() {
             this("invalid Thales Clang primitive cell");
         }
+
         public InvalidException(String s) {
             super(s);
         }
     }
-    
+
     static private void readAPrimitive(ZZCell c) {
         ZZCell op = c.s(DimensionNames.primbinding, 1);
-        
-        if (op == null) throw new InvalidException();
-        
+
+        if (op==null) throw new InvalidException();
+
         Object o;
-        
+
         try {
             Class cl = Class.forName("org.gzigzag.clang.thales.primitive." + op.getText());
             o = cl.newInstance();
@@ -135,37 +153,37 @@ public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:3
         } catch (IllegalAccessException e) {
             throw new InvalidException("" + e);
         }
-        
+
         if (!(o instanceof PrimitiveOperation)) throw new InvalidException();
-            
+
         // XXX: is this necessary or desirable?
         if (optocell.containsKey(o)) throw new DuplicateException();
-            
+
         synchronized (prims) {
             prims.put(c, o);
             optocell.put(o, c);
         }
     }
-    
+
     static public void readPrimitivesFromStructure(ZZSpace space) {
         ZZCell home = space.getHomeCell();
-        
+
         synchronized (prims) {
             for (ZZCell c = home.s(DimensionNames.primitives, 1);
-                 c != null;
+                 c!=null;
                  c = c.s(DimensionNames.primitives, 1)) {
                 try {
                     readAPrimitive(c);
                 } catch (PrimitiveProblemException e) {
                     pa("" + e);
                 }
-            } 
+            }
         }
     }
 
     static public void register(ZZSpace space, String mc) {
         ZZCell home = space.getHomeCell();
-        
+
         synchronized (prims) {
             ZZCell id = home.N();
             ZZCell name = id.N(DimensionNames.primbinding, 1);
@@ -178,7 +196,7 @@ public static final String rcsid = "$Id: Primitive.java,v 1.7 2000/10/18 14:35:3
                 id.delete();
                 name.delete();
                 throw e;
-            } 
+            }
 
             home.insert(DimensionNames.primitives, 1, id);
         }

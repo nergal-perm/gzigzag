@@ -21,12 +21,12 @@ DimensionNames.java
 
 package org.gzigzag.clang.thales;
 
-import org.gzigzag.*;
-
-/** Parametrized names of Thales Clang special dimensions.  This class
-    allows easy renaming of these dimensions should one become
-    necessary. */
-class DimensionNames {
+/**
+ * Parametrized names of Thales Clang special dimensions.  This class
+ * allows easy renaming of these dimensions should one become
+ * necessary.
+ */
+public class DimensionNames {
     // Note: the members should not be final!  (Allows substituting
     // this class alone to a precompiled GZigZag.)
 

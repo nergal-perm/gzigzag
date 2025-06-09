@@ -20,50 +20,59 @@ TestEarlyTermination.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.clang.test;
-import org.gzigzag.*;
-import org.gzigzag.clang.*;
-import junit.framework.*;
+package org.gzigzag.arch.junit.archimedes;
 
-/** Test Archimedes' early terminations.
- *  @see org.gzigzag.clang.EarlyTermination
+import junit.framework.TestCase;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZDimSpace;
+import org.gzigzag.clang.archimedes.*;
+
+/**
+ * Test Archimedes' early terminations.
+ *
+ * @see EarlyTermination
  */
 
 public class TestEarlyTermination extends TestCase {
-public static final String rcsid = "$Id: TestEarlyTermination.java,v 1.4 2001/06/16 09:52:05 tjl Exp $";
+    public static final String rcsid = "$Id: TestEarlyTermination.java,v 1.4 2001/06/16 09:52:05 tjl Exp $";
 
-    private static final void pa(String s) { System.out.println(s); }
+    private static final void pa(String s) {
+        System.out.println(s);
+    }
 
-    public TestEarlyTermination(String s) { super(s); }
+    public TestEarlyTermination(String s) {
+        super(s);
+    }
 
     ZZDimSpace sp = new ZZDimSpace();
     ZZCell home = sp.getHomeCell();
     Namespace empty = new Namespace(sp);
 
-    /** Currently only a very simple test, because there's no catch primitive
-     *  (yet).
+    /**
+     * Currently only a very simple test, because there's no catch primitive
+     * (yet).
      */
     public void testEarlyTermination() {
-	ZZCell termination = home.N();
-	termination.setText("Function terminated early.");
-	
-	Expression add = new Expression(sp, "+");
-	add.set("d.1", -1, 7);
-	Expression term = add.create("d.1", 1, "terminate");
-	term.set("d.1", 1, termination);
-	
-	Function f = new Function(sp, add);
-	
-	Expression e = new Expression(sp, f);
-	
-	boolean raised = false;
-	try {
-	    Archimedes.evaluateExpression(e, empty);
-	} catch(EarlyTermination et) {
-	    assertEquals(et.cell, termination);
-	    raised = true;
-	}
-	
-	assertTrue("No early termination raised", raised);
+        ZZCell termination = home.N();
+        termination.setText("Function terminated early.");
+
+        Expression add = new Expression(sp, "+");
+        add.set("d.1", -1, 7);
+        Expression term = add.create("d.1", 1, "terminate");
+        term.set("d.1", 1, termination);
+
+        Function f = new Function(sp, add);
+
+        Expression e = new Expression(sp, f);
+
+        boolean raised = false;
+        try {
+            Archimedes.evaluateExpression(e, empty);
+        } catch (EarlyTermination et) {
+            assertEquals(et.cell, termination);
+            raised = true;
+        }
+
+        assertTrue("No early termination raised", raised);
     }
 }

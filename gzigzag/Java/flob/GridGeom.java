@@ -20,7 +20,7 @@ GridGeom.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.flob;
 import java.awt.*;
 
 /** An object that describes the geometry of a rectangular grid.

@@ -66,7 +66,7 @@ public static final String rcsid = "$Id: ZZDrawing.java,v 1.6 2001/03/26 12:41:0
 	Class g2d = null, zzdj2d = null;
 	try {
 	    g2d = Class.forName("java.awt.Graphics2D");
-	    zzdj2d = Class.forName("org.gzigzag.ZZDrawingJ2D");
+	    zzdj2d = Class.forName("org.gzigzag.arch.java2d.ZZDrawingJ2D");
 	    ret = (ZZDrawing)zzdj2d.newInstance();
 	} catch(Exception e) {
 	    ZZLogger.exc(e);

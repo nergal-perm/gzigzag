@@ -21,9 +21,11 @@ StringScroll.java
  * Written by Tuomas Lukka,
  * multiformat and UTF-8 format support by Antti-Juhani Kaijanaho
  */
-package org.gzigzag;
+package org.gzigzag.media;
 import java.util.*;
 import java.io.*;
+import org.gzigzag.errors.ZZError;
+import org.gzigzag.storage.Writable;
 
 /** A scroll of chars. May later have holes etc. from expunging,
  * but basically the point is that the address to content mapping
@@ -149,7 +151,7 @@ public static final String rcsid = "$Id: StringScroll.java,v 1.8 2001/02/09 08:3
 
             if (idx >= index.size()) index.setSize((int) idx + 1);
 
-            index.setElementAt(new Long(offs), (int)idx);
+            index.setElementAt(offs, (int)idx);
 
             // sanity check
             if (lookupOffs(addr) != offs) {

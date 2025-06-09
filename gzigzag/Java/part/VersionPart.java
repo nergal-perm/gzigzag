@@ -18,8 +18,13 @@ VersionPart.java
 /*
  * Written by Antti-Juhani Kaijanaho
  */
-package org.gzigzag;
+package org.gzigzag.part;
 import java.util.*;
+import org.gzigzag.*;
+import org.gzigzag.errors.SyntaxError;
+import org.gzigzag.errors.ZZError;
+import org.gzigzag.media.Span;
+import org.gzigzag.storage.ZZCacheDimSpace;
 
 /** <b>EXPERIMENTAL:</b> A space part showing past versions of a ZZCacheDimSpace.
  */
@@ -203,8 +208,8 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
 
     /** Activate the space corresponding to stamp. */
     public void loadVersion(int stamp) {
-        if (stamp > ((ZZCacheDimSpace)space).timestamp)
-            stamp = ((ZZCacheDimSpace)space).timestamp;
+        if (stamp > ((ZZCacheDimSpace)space).timestamp())
+            stamp = ((ZZCacheDimSpace)space).timestamp();
         getActiveSpaceElement(stamp);
     }
 
@@ -405,7 +410,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
                         // new commit if it has not been examined, but
                         // also we want it to magically be active
                         // after a commit otherwise.
-                        Integer stampo = new Integer(((ZZCacheDimSpace)VersionPart.this.space).timestamp);
+                        Integer stampo = new Integer(((ZZCacheDimSpace)VersionPart.this.space).timestamp());
                         // Careful here!  If the tailcell version is
                         // active, it is stamps[stamps.size()-1] and
                         // thus we must not give it a posward
@@ -490,7 +495,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
                 i = id.stamp;
             }
             i += steps;
-            if (!(0 <= i && i <= ((ZZCacheDimSpace)VersionPart.this.space).timestamp)) return null;
+            if (!(0 <= i && i <= ((ZZCacheDimSpace)VersionPart.this.space).timestamp())) return null;
             if (obs != null) ot.addObs(dimensions, obs);
             if (i == 0) return home;
             return getSpaceElement(i).cell;

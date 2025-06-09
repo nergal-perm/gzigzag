@@ -26,9 +26,11 @@ FTextCellView.zob
  * Written by Benja Fallenstein
  */
 
-package org.gzigzag;
+package org.gzigzag.flob;
 import java.util.*;
 import java.awt.*;
+import org.gzigzag.*;
+import org.gzigzag.media.FText;
 
 /** A cell view showing some FText.
  *  This class exists in order to make it easy to create cell views which
@@ -94,8 +96,8 @@ public static final String rcsid = "$Id: FTextCellView.zob,v 1.4 2001/04/02 20:2
  * @structparam 1 
  */ 
 
- public 
-	ScalableFont font
+ public
+    ScalableFont font
 	    = new ScalableFont("SansSerif", Font.PLAIN, 12);/** UNDOCUMENTED. 
  
  * <p>Default value: <PRE> new FTextLayouter(false);</PRE>. 

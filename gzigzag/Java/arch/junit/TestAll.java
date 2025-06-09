@@ -20,8 +20,9 @@ TestAll.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.test;
+package org.gzigzag.arch.junit;
 import junit.framework.*;
+import org.gzigzag.arch.junit.archimedes.TestArchimedes;
 
 /** Perform all current JUnit tests.
  */

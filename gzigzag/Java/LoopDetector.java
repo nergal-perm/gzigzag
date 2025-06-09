@@ -21,18 +21,20 @@ LoopDetector.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
 
-/** A loop detector.
- * Uses a simple constant-space algorithm that will detect any loop before 
- * it's cycled through 3 times, except very small loops.  
+import org.gzigzag.errors.ZZInfiniteLoop;
+
+/**
+ * A loop detector.
+ * Uses a simple constant-space algorithm that will detect any loop before
+ * it's cycled through 3 times, except very small loops.
  * Example use:
  * <pre>
  * 	LoopDetector l = new LoopDetector();
- *	while((x = iter(x)) != null) {
- *		l.detect(x);
- *		// ... do something with x.
- *	}
+ * 	while((x = iter(x)) != null) {
+ * 		l.detect(x);
+ * 		// ... do something with x.
+ *    }
  * </pre>
  * Note: this only works for deterministic loops that always have the same
  * elements and length.
@@ -41,26 +43,33 @@ import java.util.*;
  */
 
 public final class LoopDetector {
-public static final String rcsid = "$Id: LoopDetector.java,v 1.6 2000/11/02 13:03:08 tjl Exp $";
+    public static final String rcsid = "$Id: LoopDetector.java,v 1.6 2000/11/02 13:03:08 tjl Exp $";
     Object obj = this;
     int count = 0;
     int nth = 10;
-    public void reset() { count = 0; obj = null; }
-    /** Throws an error if the parameter is a part of a looping sequence.
+
+    public void reset() {
+        count = 0;
+        obj = null;
+    }
+
+    /**
+     * Throws an error if the parameter is a part of a looping sequence.
      */
     public void detect(Object o) {
-	if(isLooping(o))
-		throw new ZZInfiniteLoop("Infinite loop detected");
+        if (isLooping(o)) throw new ZZInfiniteLoop("Infinite loop detected");
     }
-    /** Returns true if the parameter is a part of a looping sequence.
+
+    /**
+     * Returns true if the parameter is a part of a looping sequence.
      */
     public boolean isLooping(Object o) {
-	if(o.equals(obj)) return true;
-	if(count-- < 0) {
-	    nth *= 2;
-	    count = nth;
-	    obj = o;
-	}
-	return false;
+        if (o.equals(obj)) return true;
+        if (count-- < 0) {
+            nth *= 2;
+            count = nth;
+            obj = o;
+        }
+        return false;
     }
 }

@@ -20,7 +20,7 @@ Writable.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.storage;
 import java.util.*;
 
 /** A part of a multi-file or other nearly append-only storage.

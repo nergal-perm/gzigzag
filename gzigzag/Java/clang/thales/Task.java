@@ -19,9 +19,11 @@ Task.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.clang.thales.*;
+package org.gzigzag.clang.thales;
 
-import org.gzigzag.*;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZCursorReal;
+import org.gzigzag.errors.ZZError;
 
 class Task {
     private ZZCell cell;
@@ -36,7 +38,7 @@ class Task {
 
     public void push(ZZCell c) {
         ZZCell ct = peek();
-        if (ct != null) {
+        if (ct!=null) {
             c.connect(DimensionNames.stack, 1, ct);
             cell.disconnect(DimensionNames.stackptr, 1);
         }
@@ -45,10 +47,10 @@ class Task {
 
     public void pop() {
         ZZCell ct = peek();
-        if (ct == null) throw ZZError("empty Thales Clang runtime stack");
+        if (ct==null) throw new ZZError("empty Thales Clang runtime stack");
         ZZCell nt = ct.s(DimensionNames.stack, 1);
         cell.disconnect(DimensionNames.stackptr, 1);
-        if (nt != null) cell.connect(DimensionNames.stackptr, 1, nt);
+        if (nt!=null) cell.connect(DimensionNames.stackptr, 1, nt);
         nt.disconnect(DimensionNames.stack, -1);
     }
 
@@ -65,17 +67,19 @@ class Task {
             }
         }
 
-        for (ZZCell i = peek(); i != null && !i.equals(c);
-             i = i.s(DimensionNames.stack, 1)) {
+        ZZCell i = peek();
+        while (i!=null && !i.equals(c)) {
             // nothing
+            i = i.s(DimensionNames.stack, 1);
         }
-        if (i == null) throw ZZError("cannot remove that which is not there");
+        if (i==null) throw new ZZError("cannot remove that which is not there");
 
-        c.deleteFromRank(DimensionNames.stack);
+        // TODO: Нет такого метода, как deleteFromRank
+        //c.deleteFromRank(DimensionNames.stack);
     }
 
-    public boolean empty(ZZCell c) {
-        return peek() == null;
+    public boolean empty() {
+        return peek()==null;
     }
 
 }

@@ -20,7 +20,7 @@ Renderable.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.flob;
 import java.util.*;
 import java.awt.*;
 

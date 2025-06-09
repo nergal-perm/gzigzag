@@ -20,18 +20,23 @@ Evaluator.java
  */
 
 
-package org.gzigzag.clang.thales.*;
+package org.gzigzag.clang.thales;
 
-import org.gzigzag.*;
+import org.gzigzag.ZZCell;
 
 public class Evaluator {
 
     private Task task;
 
-    public Evaluator() { this(null); }
-    public Evaluator(Task task) { this.task = task; }
+    public Evaluator() {
+        this(null);
+    }
 
-    public Environment getCurrentEnvironment() { 
+    public Evaluator(Task task) {
+        this.task = task;
+    }
+
+    public Environment getCurrentEnvironment() {
         return task.getCurrentEnvironment();
     }
 
@@ -40,23 +45,27 @@ public class Evaluator {
     }
 
     public void request(SyntaxForm sf) {
-        task.push(sf.getCell());
+        task.push(sf.getBaseCell());
         sf.registerReference();
     }
 
     public void finish_eval(SyntaxForm sf) {
-        task.remove(sf.getCell());
+        task.remove(sf.getBaseCell());
         sf.unregisterReference();
     }
-    
+
     private final void eval_iter() {
         ZZCell c = task.peek();
         SyntaxForm sf = SyntaxForm.rt_instantiate(c, this);
-        sf.eval_iteration();
+        sf.evalIteration();
     }
 
-    public void eval_iteration() { eval_iter(); }
+    public void eval_iteration() {
+        eval_iter();
+    }
 
-    public void eval() { while (!task.empty()) eval_iter(); }
+    public void eval() {
+        while (!task.empty()) eval_iter();
+    }
 
 }

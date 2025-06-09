@@ -21,13 +21,17 @@ ZZInfiniteLoop.java
  * Written by Tuomas Lukka
  */
 
-package org.gzigzag;
+package org.gzigzag.errors;
 
-/** An operation caused an infinite loop.
+/**
+ * An operation caused an infinite loop.
  */
 
 public class ZZInfiniteLoop extends ZZError {
-public static final String rcsid = "$Id: ZZInfiniteLoop.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
-	public ZZInfiniteLoop(String s) { super(s); }
+    public static final String rcsid = "$Id: ZZInfiniteLoop.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
+
+    public ZZInfiniteLoop(String s) {
+        super(s);
+    }
 }
 

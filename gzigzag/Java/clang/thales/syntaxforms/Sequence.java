@@ -19,12 +19,15 @@ Sequence.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.clang.thales.syntaxform;
+package org.gzigzag.clang.thales.syntaxforms;
 
 import org.gzigzag.*;
 import org.gzigzag.clang.thales.*;
+import org.gzigzag.errors.SyntaxError;
 
 class Sequence extends SyntaxForm {
+    private final Rep rep;
+
     // Runtime representation: basecell -> rvcc -> tmprc -> csec on
     // d.1 posward
     private final class Rep {
@@ -35,7 +38,9 @@ class Sequence extends SyntaxForm {
         public ZZCell csec;  // pointer to the current subexpression in code
         public ZZCell cse;   // current subexpression in code
 
-        /** Create from existing structure. */
+        /**
+         * Create from existing structure.
+         */
         public Rep() {
             rvcc = getBaseCell().s("d.1", 1);
             rvc = ZZCursorReal.get(rvcc);
@@ -45,7 +50,9 @@ class Sequence extends SyntaxForm {
             cse = ZZCursorReal.get(csec);
         }
 
-        /** Create also a new structure. */
+        /**
+         * Create also a new structure.
+         */
         public Rep(ZZCell fse, ZZCell rvc) {
             rvcc = getBaseCell().N("d.1", 1);
             ZZCursorReal.set(rvcc, rvc);
@@ -57,39 +64,39 @@ class Sequence extends SyntaxForm {
             cse = fse;
         }
 
-        public void delete() {
-            rvcc.delete();
-            tmprc.delete();
-            csec.delete();
-        }
-
-        public Sequence(ZZCell c) { super(c); }
-        
-        public Sequence(ZZCell expr, ZZCell rvc) {
-            super(rvc.getSpace());
-            ZZCell fse = expr.s(DimensionNames.sequence, 1);
-            if (fse == null) {
-                throw new SyntaxError("sequence must have at least one element");
-            }
-            Rep rep(fse, rvc);
-        }
-            
-        public void evalIteration() {
-            Rep rep;
-
-            if (rep.cse == null) {
-                ZZCursorReal.set(rvc, tmpr);
-                finishEval();
-            }
-
-            SyntaxForm sf = code_instantiate(rep.cse, tmprc);
-            
-            requestEval(sf);
-
-            ZZCursorReal.set(rep.csec,
-                             rep.cse.s(DimensionNames.sequence, 1));
-        }
-
     }
 
+    public Sequence(ZZCell c) {
+        super(c);
+        this.rep = new Rep();
+    }
+
+    public Sequence(ZZCell expr, ZZCell rvc) {
+        super(rvc.getSpace());
+        ZZCell fse = expr.s(DimensionNames.sequence, 1);
+        if (fse==null) {
+            throw new SyntaxError("sequence must have at least one element");
+        }
+        this.rep = new Rep(fse, rvc);
+    }
+
+    public void evalIteration() {
+        if (rep.cse==null) {
+            ZZCursorReal.set(this.rep.rvc, this.rep.tmpr);
+            finishEval();
+        }
+
+        SyntaxForm sf = code_instantiate(rep.cse, rep.tmprc);
+
+        requestEval(sf);
+
+        ZZCursorReal.set(rep.csec,
+                rep.cse.s(DimensionNames.sequence, 1));
+    }
+
+    public void delete() {
+        this.rep.rvcc.delete();
+        this.rep.tmprc.delete();
+        this.rep.csec.delete();
+    }
 }

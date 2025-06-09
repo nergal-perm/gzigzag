@@ -20,19 +20,21 @@ FlobDecorator.java
 /*
  * Written by Tuomas Lukka
  */
- 
-package org.gzigzag;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 
-/** An interface for classes that decorate FlobSets by drawing connections
+package org.gzigzag.flob;
+
+import org.gzigzag.ZZCell;
+
+/**
+ * An interface for classes that decorate FlobSets by drawing connections
  * or so.
  */
 
 public interface FlobDecorator {
-String rcsid = "$Id: FlobDecorator.java,v 1.6 2000/10/26 18:09:29 tjl Exp $";
-    /** Add Renderables or Flobs to the given flobset, 
+    String rcsid = "$Id: FlobDecorator.java,v 1.6 2000/10/26 18:09:29 tjl Exp $";
+
+    /**
+     * Add Renderables or Flobs to the given flobset,
      * based on the flobs already in there.
      */
     void decorate(FlobSet f, String path, ZZCell view);

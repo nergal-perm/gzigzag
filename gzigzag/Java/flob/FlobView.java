@@ -20,28 +20,34 @@ FlobRaster.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.util.*;
+package org.gzigzag.flob;
 
-/** A fairly general interface for drawing a structure
+import java.util.*;
+import org.gzigzag.ZZCell;
+
+/**
+ * A fairly general interface for drawing a structure
  * on the screen using flobs.
  * The parameters have been read through the ZOb interface so
  * we don't need to worry about those here.
  */
 
 public interface FlobView {
-String rcsid = "$Id$";
-    /** Draw a representation of the structure into the FlobSet.
+    String rcsid = "$Id$";
+
+    /**
+     * Draw a representation of the structure into the FlobSet.
      * An implementation of this routine will usually place a number
-     * of Flobs and Renderables into 
+     * of Flobs and Renderables into
      * The parameters dims and accursed are redundant but since they
      * are used so often, it's just good to have them.
+     *
      * @param into The FlobSet to place the flobs and decorations into.
      * @param fact A factory for constructing flobs. This may be used
-     *		   or ignored by the FlobRaster. In general, it should
-     *		   be used to draw the "run-of-the-mill" flobs.
+     *         or ignored by the FlobRaster. In general, it should
+     *         be used to draw the "run-of-the-mill" flobs.
      * @param view The viewspecs cell in the structure.
-     * @param dims Three first dims 
+     * @param dims Three first dims
      * @param accursed The cell that the cursor is on
      * @see Flob
      * @see Renderable
@@ -49,7 +55,7 @@ String rcsid = "$Id$";
      * @see RasterFlobFactory
      */
     void raster(FlobSet into, FlobFactory fact,
-		ZZCell view, String[] dims, ZZCell accursed);
+                ZZCell view, String[] dims, ZZCell accursed);
 }
 
 

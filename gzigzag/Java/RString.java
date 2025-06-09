@@ -21,21 +21,26 @@ RString.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.awt.*;
 
-/** A potentially referential immutable text string.
+import org.gzigzag.media.Span;
+
+/**
+ * A potentially referential immutable text string.
  */
 
 public interface RString {
-String rcsid = "$Id: RString.java,v 1.1 2000/10/20 11:35:29 tjl Exp $";
+    String rcsid = "$Id: RString.java,v 1.1 2000/10/20 11:35:29 tjl Exp $";
 
     String txt();
-    
+
     RString substring(int start);
+
     RString substring(int start, int end);
 
     Span[] getSpans();
+
     Span[] getSpans(int start);
+
     Span[] getSpans(int start, int end);
 
 }

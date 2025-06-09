@@ -20,15 +20,19 @@ Task.java
  */
 
 
-package org.gzigzag.clang.thales.*;
+package org.gzigzag.clang.thales;
 
-import org.gzigzag.*;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZCursorReal;
+import org.gzigzag.errors.ZZError;
 
-/** A runtime environment.  It contains runtime instances of cell
-    denoters.  Remember to register/unregister references (that are in
-    the structure (not Java references)). */
-class Environment implements Refcounted {
-    private ZZCell cell;
+/**
+ * A runtime environment.  It contains runtime instances of cell
+ * denoters.  Remember to register/unregister references (that are in
+ * the structure (not Java references)).
+ */
+public class Environment implements Refcounted {
+    private final ZZCell cell;
 
     public Environment(ZZCell cell) {
         this.cell = cell.h(DimensionNames.environment);
@@ -38,18 +42,20 @@ class Environment implements Refcounted {
         cell = firstparam.N(DimensionNames.activations, 1);
         ZZCell prev = cell;
         for (ZZCell c = cell.s(DimensionNames.argument, 1);
-             c != null;
+             c!=null;
              c = c.s(DimensionNames.argument, 1)) {
             ZZCell nc = c.N(DimensionNames.activations, 1);
             prev.connect(DimensionNames.environment, 1, nc);
             prev = nc;
         }
-        if (parent != null) ZZCursorReal.set(first, parent.getCell());
-        cell.setReferenceCount("0");
+        if (parent!=null) ZZCursorReal.set(firstparam, parent.getCell());
+        cell.setText("0");
         parent.registerReference();
     }
 
-    public ZZCell getCell() { return cell; }
+    public ZZCell getCell() {
+        return cell;
+    }
 
     protected int getReferenceCount() {
         String text = cell.getText();
@@ -72,23 +78,24 @@ class Environment implements Refcounted {
     public void delete() {
         ZZCell parent = ZZCursorReal.get(cell);
         ZZCell c = cell;
-        while (c != null) {
+        while (c!=null) {
             ZZCell tmp = c;
             c = c.s(DimensionNames.environment, 1);
             tmp.delete();
         }
-        if (parent != null) parent.unregisterReference();
+        // TODO: Не понимаю, какой parent здесь нужен.
+        // if (parent != null) parent.unregisterReference();
     }
 
-    protected ZZCell getDenoterInstance(ZZCell denoter) {
+    public ZZCell getDenoterInstance(ZZCell denoter) {
         ZZCell ecell = cell;
         ZZCell rv = null;
-        while (rv == null) {
+        while (rv==null) {
             rv = denoter.intersect(DimensionNames.activations, 1,
-                                   ecell, DimensionNames.environment, 1);
-            if (rv == null) { 
+                    ecell, DimensionNames.environment, 1);
+            if (rv==null) {
                 ecell = ZZCursorReal.get(ecell);
-                if (ecell == null) {
+                if (ecell==null) {
                     throw new ZZError("accessing inaccessible denoter");
                 }
             }

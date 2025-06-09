@@ -22,14 +22,15 @@ ZZError.java
  */
 /*
  *	Things can happen to browsers in magical libraries that make
- *	having your face pulled off by tentacled monstrosities from 
+ *	having your face pulled off by tentacled monstrosities from
  * 	the Dungeon Dimensions seem a mere light massage by comparison.
  *		- Terry Pratchett, Mort, p. 153
  */
 
-package org.gzigzag;
+package org.gzigzag.errors;
 
-/** A relatively recoverable ZigZag error.
+/**
+ * A relatively recoverable ZigZag error.
  * Later on, this should be subclassed and specialized as necessary.
  * Note that catching this <em>is</em> ok - it's just that normally
  * when it happens, we want to just let it unwind the stack without
@@ -37,6 +38,9 @@ package org.gzigzag;
  */
 
 public class ZZError extends Error {
-public static final String rcsid = "$Id: ZZError.java,v 1.4 2000/09/19 10:31:59 ajk Exp $";
-	public ZZError(String s) { super(s); }
+    public static final String rcsid = "$Id: ZZError.java,v 1.4 2000/09/19 10:31:59 ajk Exp $";
+
+    public ZZError(String s) {
+        super(s);
+    }
 }

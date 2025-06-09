@@ -20,7 +20,7 @@ SimpleLineInfo.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.media;
 import java.util.*;
 import java.io.*;
 import java.awt.*;
@@ -44,7 +44,7 @@ public static final String rcsid = "$Id: SimpleLineInfo.java,v 1.8 2000/09/19 10
     Layout l;
     int cursor;
 
-    SimpleLineInfo(String s, int cursor, Layout l) { this.s = s; this.l = l; 
+    public SimpleLineInfo(String s, int cursor, Layout l) { this.s = s; this.l = l;
 	this.cursor = cursor;}
 
     public int getMax() { return s.length(); }

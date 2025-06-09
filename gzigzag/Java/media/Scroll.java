@@ -20,11 +20,17 @@ Scroll.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.util.*;
-import java.io.*;
+package org.gzigzag.media;
 
-/** A pseudo-permanent stable media storage.
+import java.io.File;
+import java.util.Hashtable;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZDefaultSpace;
+import org.gzigzag.ZZSpace;
+import org.gzigzag.errors.ZZError;
+
+/**
+ * A pseudo-permanent stable media storage.
  * If you put data in a scroll, it is guaranteed (well, in the development
  * stage only theoretically) that the same address will be eternal for it.
  * If you look for that particular address, you will get the data you stored
@@ -33,65 +39,78 @@ import java.io.*;
  */
 
 public abstract class Scroll {
-public static final String rcsid = "$Id: Scroll.java,v 1.5 2000/11/03 08:01:05 ajk Exp $";
+    public static final String rcsid = "$Id: Scroll.java,v 1.5 2000/11/03 08:01:05 ajk Exp $";
     public static boolean dbg = true;
-    static public final void p(String s) { if(dbg) System.out.println(s); }
-    static public final void pa(String s) { if(dbg) System.out.println(s); }
 
-    protected Scroll(String i) { id = i; }
+    static public final void p(String s) {
+        if (dbg) System.out.println(s);
+    }
+
+    static public final void pa(String s) {
+        if (dbg) System.out.println(s);
+    }
+
+    protected Scroll(String i) {
+        id = i;
+    }
 
     String id;
-    public String getId() { return id; }
+
+    public String getId() {
+        return id;
+    }
 
 
     static Hashtable scrolls = new Hashtable();
 
 
     public interface Creator {
-	    Scroll create(String id, File f);
+        Scroll create(String id, File f);
     }
+
     static Hashtable scrolltypes = new Hashtable(); // full of creators
 
     static public void register(String id, Creator c) {
-	    scrolltypes.put(id, c);
+        scrolltypes.put(id, c);
     }
 
     static public void register(String id, Scroll s) {
-	scrolls.put(id, s);
+        scrolls.put(id, s);
     }
 
-    /** Get a scroll for the given identifier.
-     * This method encapsulates the way the system finds 
+    /**
+     * Get a scroll for the given identifier.
+     * This method encapsulates the way the system finds
      * scrolls and the implementation will change in the future.
      * Currently it looks in the given ZZSpace for a file name.
      */
     static public Scroll obtain(ZZSpace e, String id) {
 
 
-	Scroll scr;
-	if((scr=(Scroll)scrolls.get(id))!=null)
-		return scr;
+        Scroll scr;
+        if ((scr = (Scroll) scrolls.get(id))!=null)
+            return scr;
 
-	ZZCell c = e.getHomeCell();
-	c = ZZDefaultSpace.findScrollCell(c, id);
-	if(c==null) return null;
-	ZZCell cfn = c.s("d.2",1);
-	File f = new File(cfn.getText());
-	ZZCell typ = cfn.s("d.2",1);
-	String t = typ.getText();
-	if(t.equals("Byte")) {
-		scr = new ByteScroll(id, f, "r", "ISO8859_1", true);
-	} else if(t.equals("Sound")) {
-		ZZCell dur = typ.s("d.2", 1);
-		scr = new SoundScroll(id, f, Long.parseLong(dur.getText()));
-	} else {
-		Creator crea = (Creator)scrolltypes.get(t);
-		if(crea==null)
-			throw new ZZError("No such scroll type: "+t);
-		scr = crea.create(id, f);
-	}
+        ZZCell c = e.getHomeCell();
+        c = ZZDefaultSpace.findScrollCell(c, id);
+        if (c==null) return null;
+        ZZCell cfn = c.s("d.2", 1);
+        File f = new File(cfn.getText());
+        ZZCell typ = cfn.s("d.2", 1);
+        String t = typ.getText();
+        if (t.equals("Byte")) {
+            scr = new ByteScroll(id, f, "r", "ISO8859_1", true);
+        } else if (t.equals("Sound")) {
+            ZZCell dur = typ.s("d.2", 1);
+            scr = new SoundScroll(id, f, Long.parseLong(dur.getText()));
+        } else {
+            Creator crea = (Creator) scrolltypes.get(t);
+            if (crea==null)
+                throw new ZZError("No such scroll type: " + t);
+            scr = crea.create(id, f);
+        }
 
-	scrolls.put(id, scr);
-	return scr;
+        scrolls.put(id, scr);
+        return scr;
     }
 }

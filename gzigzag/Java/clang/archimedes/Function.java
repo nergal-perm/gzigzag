@@ -21,62 +21,80 @@ Function.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.clang;
-import org.gzigzag.*;
+package org.gzigzag.clang.archimedes;
 
-/** An Archimedes function object used to modify Archimedes funcs easily.
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZSpace;
+import org.gzigzag.errors.MissingTermError;
+
+/**
+ * An Archimedes function object used to modify Archimedes funcs easily.
  */
 
 public class Function extends Callable {
-String rcsid = "$Id: Function.java,v 1.4 2001/04/15 11:33:57 bfallenstein Exp $";
+    String rcsid = "$Id: Function.java,v 1.4 2001/04/15 11:33:57 bfallenstein Exp $";
 
     public ZZCell main;
     private Expression exp;
 
-    /** Create a Function object from an existing Function maincell. */
-    public Function(ZZCell main) { this.main = main; getExpression(); }
-
-    /** Create a Function object from scratch and name it. */
-    public Function(ZZSpace sp, String name, Expression exp) {
-	ZZCell home = sp.getHomeCell();
-	main = home.N();
-	main.setText(name);
-	exp.connect(main);
-	this.exp = exp;
+    /**
+     * Create a Function object from an existing Function maincell.
+     */
+    public Function(ZZCell main) {
+        this.main = main;
+        getExpression();
     }
 
-    /** Create a Function object from scratch without naming it. */
-    public Function(ZZSpace sp, Expression exp) { this(sp, "", exp); }
-    
-    /** Get the expression defining this function object. */
+    /**
+     * Create a Function object from scratch and name it.
+     */
+    public Function(ZZSpace sp, String name, Expression exp) {
+        ZZCell home = sp.getHomeCell();
+        main = home.N();
+        main.setText(name);
+        exp.connect(main);
+        this.exp = exp;
+    }
+
+    /**
+     * Create a Function object from scratch without naming it.
+     */
+    public Function(ZZSpace sp, Expression exp) {
+        this(sp, "", exp);
+    }
+
+    /**
+     * Get the expression defining this function object.
+     */
     public Expression getExpression() {
-	ZZCell def = main.h("d.expression", true);
-	if(def == null)
-	    throw new MissingTermError("No expression connected to "
-				     + "this function!");
-	if(exp == null || !exp.main.equals(def))
-	    exp = new Expression(def);
-	return exp;
+        ZZCell def = main.h("d.expression", true);
+        if (def==null) throw new MissingTermError("No expression connected to " + "this function!");
+        if (exp==null || !exp.main.equals(def)) exp = new Expression(def);
+        return exp;
     }
 
     public ZZCell getParam(String dim, int steps) {
-	int dir, n;
+        int dir, n;
 
-	if(steps > 0) { dir = 1; n = steps; }
-	else if(steps < 0) { dir = -1; n = -steps; }
-	else return main;
-	
-	ZZCell c = main;
-	for(int i=0; i<n; i++)
-	    c = c.getOrNewCell(dim, dir);
+        if (steps > 0) {
+            dir = 1;
+            n = steps;
+        } else if (steps < 0) {
+            dir = -1;
+            n = -steps;
+        } else return main;
 
-	return c;
+        ZZCell c = main;
+        for (int i = 0; i < n; i++)
+            c = c.getOrNewCell(dim, dir);
+
+        return c;
     }
 
     public ZZCell evaluate(Expression e, Namespace context) {
-	Namespace subcontext = context.create();
-	Parser.parse(main, e.main, context, subcontext);
-	return Archimedes.evaluateExpression(exp, subcontext);
+        Namespace subcontext = context.create();
+        Parser.parse(main, e.main, context, subcontext);
+        return Archimedes.evaluateExpression(exp, subcontext);
     }
 
 }

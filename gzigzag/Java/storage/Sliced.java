@@ -20,7 +20,7 @@ Sliced.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.storage;
 import java.util.*;
 
 class FEIHFSEHFSHFSMEKFMESKUFMSEF { }

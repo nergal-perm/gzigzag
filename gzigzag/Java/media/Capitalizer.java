@@ -21,7 +21,7 @@ Capitalizer.java
  * Capitalizing code written by Tuomas Lukka
  */
 
-package org.gzigzag;
+package org.gzigzag.media;
 import java.awt.*;
 import java.util.*;
 

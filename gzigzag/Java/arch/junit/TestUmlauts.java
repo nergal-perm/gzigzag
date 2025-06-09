@@ -21,7 +21,7 @@ TestUmlauts.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.test;
+package org.gzigzag.arch.junit;
 import org.gzigzag.*;
 import junit.framework.*;
 import java.awt.*;

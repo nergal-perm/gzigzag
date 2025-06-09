@@ -20,35 +20,42 @@ SpanFlob.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.util.*;
-import java.awt.*;
+package org.gzigzag.flob;
 
-/** An interface to Flobs that contain a single span.
+import java.awt.Rectangle;
+import org.gzigzag.media.Span;
+
+/**
+ * An interface to Flobs that contain a single span.
  */
 
 public interface SpanFlob {
-String rcsid = "$Id: SpanFlob.java,v 1.5 2000/09/19 10:32:00 ajk Exp $";
+    String rcsid = "$Id: SpanFlob.java,v 1.5 2000/09/19 10:32:00 ajk Exp $";
 
-    /** The previous and following spanflobs.
-     * These are used for coloring beams: if a beam is being drawn 
+    /**
+     * The previous and following spanflobs.
+     * These are used for coloring beams: if a beam is being drawn
      * between vstreams with a lot of the same content, then
-     * the beam should have just one color. These fields enable 
+     * the beam should have just one color. These fields enable
      * the beam drawer to see what the vstream actually is.
      * These are to be set by the routine that puts the spanflobs in the
      * flobset.
      */
     SpanFlob getPrev();
+
     SpanFlob getNext();
+
     void setNext(SpanFlob sf);
 
-    /** The span this flob contains. Might not be the same as 
+    /**
+     * The span this flob contains. Might not be the same as
      * flob.c.getSpan() since this might be just a piece of the cell.
      * Can return null.
      */
     Span getSpan();
 
-    /** Get the rectangle corresponding to the given span. The offs and end
+    /**
+     * Get the rectangle corresponding to the given span. The offs and end
      * are given as substring indices to the span returned by getSpan(),
      * i.e. the characters offs...end-1 are included.
      */

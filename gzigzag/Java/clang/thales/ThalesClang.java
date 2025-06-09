@@ -19,28 +19,29 @@ ThalesClang.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.module;
+package org.gzigzag.clang.thales;
 
+import java.awt.Point;
 import org.gzigzag.*;
-import java.awt.*;
-import org.gzigzag.clang.thales.*;
+import org.gzigzag.clang.thales.syntaxforms.Primitive;
+import org.gzigzag.errors.ZZError;
 
 public class ThalesClang {
     static public ZZModule module = new ZZModule() {
-            public void action(String id,
-                               ZZCell code, 
-                               ZZCell target,
-                               ZZView view, ZZView cview,
-                               String key, Point pt, ZZScene xi) {
-                ZZSpace space = code.getSpace();
-                if (id.equals("RELOAD")) {
-                    Primitive.readPrimitivesFromStructure(code.getSpace());
-                } else if (id.equals("INITIALIZE")) {
-                    Primitive.register(space, "If");
-                } else {
-                    throw new ZZError("unknown ThalesClang module command");
-                }
+        public void action(String id,
+                           ZZCell code,
+                           ZZCell target,
+                           ZZView view, ZZView cview,
+                           String key, Point pt, ZZScene xi) {
+            ZZSpace space = code.getSpace();
+            if (id.equals("RELOAD")) {
+                Primitive.readPrimitivesFromStructure(code.getSpace());
+            } else if (id.equals("INITIALIZE")) {
+                Primitive.register(space, "If");
+            } else {
+                throw new ZZError("unknown ThalesClang module command");
             }
-            
-        };
+        }
+
+    };
 }

@@ -21,11 +21,16 @@ FlowingClang.java
  * Written for Heraclitus Clang by Tuomas Lukka
  * Adaption for Flowing Clang by Benjamin Fallenstein
  */
-package org.gzigzag.flowing;
-import org.gzigzag.*;
-import java.util.*;
+package org.gzigzag.clang.flowing;
 
-/** A simple (imperative) clang passing values dataflow-like.
+import java.util.Hashtable;
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZLogger;
+import org.gzigzag.clang.Data;
+import org.gzigzag.errors.ZZError;
+
+/**
+ * A simple (imperative) clang passing values dataflow-like.
  * Kind of a cross between a dataflow ("graphical") programming language and
  * an assembler. On the one hand we have sequences of instructions, each with
  * zero or more in- and output variables; variables are set and read;
@@ -88,132 +93,139 @@ import java.util.*;
  */
 
 public class FlowingClang {
-public static final String rcsid = "$Id: FlowingClang.java,v 1.7 2000/11/16 20:33:13 bfallenstein Exp $";
+    public static final String rcsid = "$Id: FlowingClang.java,v 1.7 2000/11/16 20:33:13 bfallenstein Exp $";
     public static boolean dbg = true;
-    static final void p(String s) { if(dbg) ZZLogger.log(s); }
+
+    static final void p(String s) {
+        if (dbg) ZZLogger.log(s);
+    }
 
     public static final String dim = "d.xeq";
 
     static Hashtable pss = new Hashtable();
+
     static PrimitiveSet findPrimitiveSet(String set) {
-	Object o = pss.get(set);
-	if(o != null) return (PrimitiveSet)o;
-	try {
-	    o = Class.forName("org.gzigzag.flowing."+set).newInstance();
-	} catch(Exception e) {
-	    ZZLogger.exc(e);
-	    return null;
-	}
-	if(!(o instanceof PrimitiveSet)) return null;
-	pss.put(set, o);
-	return (PrimitiveSet)o;
+        Object o = pss.get(set);
+        if (o!=null) return (PrimitiveSet) o;
+        try {
+            o = Class.forName("org.gzigzag.flowing." + set).newInstance();
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            return null;
+        }
+        if (!(o instanceof PrimitiveSet)) return null;
+        pss.put(set, o);
+        return (PrimitiveSet) o;
     }
 
     static Hashtable prims = new Hashtable();
-    static Primitive findPrimitive(String s) {
-	Object o = prims.get(s);
-	if(o != null) return (Primitive)o;
 
-	int ind = s.indexOf(".");
-	if(ind < 0) return null;
-	String set = s.substring(0, ind);
-	String id = s.substring(ind+1);
-	PrimitiveSet ps = findPrimitiveSet(set);
-	Primitive prim = ps.get(id);
-	if(prim != null)
-	    prims.put(id, prim);
-	return prim;
+    static Primitive findPrimitive(String s) {
+        Object o = prims.get(s);
+        if (o!=null) return (Primitive) o;
+
+        int ind = s.indexOf(".");
+        if (ind < 0) return null;
+        String set = s.substring(0, ind);
+        String id = s.substring(ind + 1);
+        PrimitiveSet ps = findPrimitiveSet(set);
+        Primitive prim = ps.get(id);
+        if (prim!=null)
+            prims.put(id, prim);
+        return prim;
     }
 
-    public static Data run(ZZCell c, Data d) { return run(c, d, false); }
+    public static Data run(ZZCell c, Data d) {
+        return run(c, d, false);
+    }
 
     public static Data run(ZZCell c0, Data d, boolean real) {
-	p("Flowing Clang run: "+c0.getText());
-	ZZCell c = c0.getRootclone();
-	StackFrame frame;
-	if(real) frame = new StackFrameReal(c.getSpace());
-	else frame = new StackFrameVirtual();
-	frame.setPos(c);
-	frame.put(c, d, -1);
-	StackFrame f = frame;
-	try {
-	    while(f != null) f = step(f, true);
-	} catch(Throwable t) {
-	    ZZLogger.exc(t, "Exception in Flowing Clang run. ");
-	    return null;
-	}
-	return frame.get(c, +1);
+        p("Flowing Clang run: " + c0.getText());
+        ZZCell c = c0.getRootclone();
+        StackFrame frame;
+        if (real) frame = new StackFrameReal(c.getSpace());
+        else frame = new StackFrameVirtual();
+        frame.setPos(c);
+        frame.put(c, d, -1);
+        StackFrame f = frame;
+        try {
+            while (f!=null) f = step(f, true);
+        } catch (Throwable t) {
+            ZZLogger.exc(t, "Exception in Flowing Clang run. ");
+            return null;
+        }
+        return frame.get(c, +1);
     }
 
     public static ZZCell start(ZZCell c0, Data d) {
-	StackFrameReal frame = new StackFrameReal(c0.getSpace());
-	frame.setPos(c0);
-	frame.put(c0, d, -1);
-	return frame.main;
+        StackFrameReal frame = new StackFrameReal(c0.getSpace());
+        frame.setPos(c0);
+        frame.put(c0, d, -1);
+        return frame.main;
     }
 
     public static StackFrame jump(StackFrame frame) {
-	StackFrame f = frame;
-	do {
-	    f = step(f, true);
-	} while(frame.parentof(f));
-	return f;
+        StackFrame f = frame;
+        do {
+            f = step(f, true);
+        } while (frame.parentof(f));
+        return f;
     }
 
     public static StackFrame step(StackFrame frame, boolean throwerrs) {
-	ZZCell cur = frame.getPos().s(dim);
-	if(cur == null) {			// RETURN
-	    p("Flowing clang return step");
-	    StackFrame ret = frame.ret();
-	    if(ret == null) return null;
-	    ZZCell rpos = ret.getPos();
-	    ret.put(rpos, frame.get(rpos.getRootclone(), +1), +1);
-	    frame.delete();
-	    return ret;
-	}
-	
-	p("Flowing Clang step: "+cur.getText()+" ("+cur.getID()+")");
-	ZZCell root = cur.h("d.clone", -1, true);
-	String s = cur.getText();
-	if(s.equals("") && root==null) {	// GOTO
-	    frame.setPos(cur.h("d.1", 1));
-	    return frame;
-	}
-	
-	Data d = frame.get(cur, -1);		// IF
-	if(s.equals("?")) {
-	    Primitive.count(d, 1);
-	    if(d.b(0)) cur = cur.h("d.1", 1);
-	    frame.setPos(cur);
-	    return frame;
-	}
-	
-	Primitive p = findPrimitive(s);
-	if(p != null) {				// PRIMITIVE
-	    try {
-		d = p.execute(d, cur.getSpace());
-	    } catch(ZZError e) {
-		if(throwerrs) throw e;
-		ZZLogger.exc(e, "Exception in Flowing Clang step. ");
-		return frame;
-	    }
-	    frame.put(cur, d, +1);
-	    frame.setPos(cur);
-	    return frame;
-	} else if(root != null) {		// FUNCTION CALL
-	    frame.setPos(cur);
-	    StackFrame called = frame.call();
-	    called.put(root, d, -1);
-	    called.setPos(root);
-	    return called;
-	} else {				// UNKNOWN
-	    if(throwerrs)
-		throw new ZZError("Not a primitive at " + cur.getID() + ": " +
-				  cur.getText());
-	    ZZLogger.log("Flowing Clang step cannot be executed: Not a " +
-			 "primitive at " + cur.getID() + ": " + cur.getText());
-	    return frame;
-	}
+        ZZCell cur = frame.getPos().s(dim);
+        if (cur==null) {            // RETURN
+            p("Flowing clang return step");
+            StackFrame ret = frame.ret();
+            if (ret==null) return null;
+            ZZCell rpos = ret.getPos();
+            ret.put(rpos, frame.get(rpos.getRootclone(), +1), +1);
+            frame.delete();
+            return ret;
+        }
+
+        p("Flowing Clang step: " + cur.getText() + " (" + cur.getID() + ")");
+        ZZCell root = cur.h("d.clone", -1, true);
+        String s = cur.getText();
+        if (s.equals("") && root==null) {    // GOTO
+            frame.setPos(cur.h("d.1", 1));
+            return frame;
+        }
+
+        Data d = frame.get(cur, -1);        // IF
+        if (s.equals("?")) {
+            Primitive.count(d, 1);
+            if (d.b(0)) cur = cur.h("d.1", 1);
+            frame.setPos(cur);
+            return frame;
+        }
+
+        Primitive p = findPrimitive(s);
+        if (p!=null) {                // PRIMITIVE
+            try {
+                d = p.execute(d, cur.getSpace());
+            } catch (ZZError e) {
+                if (throwerrs) throw e;
+                ZZLogger.exc(e, "Exception in Flowing Clang step. ");
+                return frame;
+            }
+            frame.put(cur, d, +1);
+            frame.setPos(cur);
+            return frame;
+        } else if (root!=null) {        // FUNCTION CALL
+            frame.setPos(cur);
+            StackFrame called = frame.call();
+            called.put(root, d, -1);
+            called.setPos(root);
+            return called;
+        } else {                // UNKNOWN
+            if (throwerrs)
+                throw new ZZError("Not a primitive at " + cur.getID() + ": " +
+                                          cur.getText());
+            ZZLogger.log("Flowing Clang step cannot be executed: Not a " +
+                                 "primitive at " + cur.getID() + ": " + cur.getText());
+            return frame;
+        }
     }
 }
 

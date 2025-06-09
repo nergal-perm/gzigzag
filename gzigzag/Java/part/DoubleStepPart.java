@@ -20,45 +20,52 @@ DoubleStepPart.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.util.*;
+package org.gzigzag.part;
 
-/** <b>EXPERIMENTAL:</b> A dimension double-stepper part.
+import org.gzigzag.*;
+
+/**
+ * <b>EXPERIMENTAL:</b> A dimension double-stepper part.
  * This part, unlike most, has none of its own cells but simply
  * provides for each dimension a doubling dimension.
  */
 
 public class DoubleStepPart extends ZZROStrSpacePart {
-public static final String rcsid = "$Id: DoubleStepPart.java,v 1.1 2000/11/06 12:39:39 tjl Exp $";
+    public static final String rcsid = "$Id: DoubleStepPart.java,v 1.1 2000/11/06 12:39:39 tjl Exp $";
     public static final boolean dbg = false;
-    static void p(String s) { if(dbg) System.out.println(s); }
 
-    public DoubleStepPart(ZZSpace space, String id) {
-	super(space, id);
+    static void p(String s) {
+        if (dbg) System.out.println(s);
     }
 
-    public String homeID() { 
-	return "1";
+    public DoubleStepPart(ZZSpace space, String id) {
+        super(space, id);
+    }
+
+    public String homeID() {
+        return "1";
     }
 
     public String getText(ZZCellHandle c) {
-	return c.id.substring(c.id.length()-1);
+        return c.id.substring(c.id.length() - 1);
     }
 
     public ZZDimension getDim(String name) {
-	return new Dbl(space.d(name));
+        return new Dbl(space.d(name));
     }
 
     public class Dbl extends ZZRODimension {
-	ZZDimension dim;
-	public Dbl(ZZDimension dim) {
-	    this.dim = dim;
-	}
-	public ZZCellHandle s(ZZCellHandle c, int steps, ZZObs o) {
-	    ZZCellHandle hd = dim.s(c, steps*2, o);
-	    p("Dbl: Step "+steps+" "+c+" "+hd);
-	    return hd;
-	}
+        ZZDimension dim;
+
+        public Dbl(ZZDimension dim) {
+            this.dim = dim;
+        }
+
+        public ZZCellHandle s(ZZCellHandle c, int steps, ZZObs o) {
+            ZZCellHandle hd = dim.s(c, steps * 2, o);
+            p("Dbl: Step " + steps + " " + c + " " + hd);
+            return hd;
+        }
     }
 }
 

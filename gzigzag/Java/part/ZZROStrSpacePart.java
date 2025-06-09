@@ -20,28 +20,32 @@ ZZROStrSpacePart.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.part;
 
-/** <b>EXPERIMENTAL:</b> A read-only part of a ZZ space that only operates
+import org.gzigzag.ZZSpace;
+
+/**
+ * <b>EXPERIMENTAL:</b> A read-only part of a ZZ space that only operates
  * on IDs.
  */
 
 public abstract class ZZROStrSpacePart extends ZZROSpacePart {
-public static final String rcsid = "$Id: ZZROStrSpacePart.java,v 1.3 2000/11/06 12:39:39 tjl Exp $";
+    public static final String rcsid = "$Id: ZZROStrSpacePart.java,v 1.3 2000/11/06 12:39:39 tjl Exp $";
 
     public ZZROStrSpacePart(ZZSpace space, String id) {
-	super(space, id);
+        super(space, id);
     }
 
     public Object parseIDPart(String idPart) {
-	return null;
+        return null;
     }
 
     public String generateID(Object parsed) {
-	return null;
+        return null;
     }
+
     public String generateIDPart(Object parsed) {
-	return null;
+        return null;
     }
 }
 

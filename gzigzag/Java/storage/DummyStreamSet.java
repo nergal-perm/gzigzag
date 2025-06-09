@@ -21,7 +21,7 @@ DummyStreamSet.java
  * Written by Benjamin Fallenstein
  */
 
-package org.gzigzag;
+package org.gzigzag.storage;
 
 import java.awt.*;
 import java.applet.*;

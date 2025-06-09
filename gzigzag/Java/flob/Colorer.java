@@ -20,21 +20,26 @@ Colorer.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.awt.*;
+package org.gzigzag.flob;
 
-/** An interface for coloring cell background -like things.
+import java.awt.Color;
+
+/**
+ * An interface for coloring cell background -like things.
  * The information about how  many colors are appropriate should
  * move separately from this.
  */
 
 public interface Colorer {
-String rcsid = "$Id: Colorer.java,v 1.1 2000/10/26 18:15:05 tjl Exp $";
-    /** Add the given color to the set of colors to be shown in the background,
+    String rcsid = "$Id: Colorer.java,v 1.1 2000/10/26 18:15:05 tjl Exp $";
+
+    /**
+     * Add the given color to the set of colors to be shown in the background,
      * or whatever.
      * It is assumed that the colors come more significant first, so that
      * Colorers are free to take any number of the first ones and ignore
      * the rest.
+     *
      * @return Whether the rest of the colors will be ignored.
      */
     boolean addColor(Color c);

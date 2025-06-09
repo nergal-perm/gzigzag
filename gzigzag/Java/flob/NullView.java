@@ -24,7 +24,11 @@ NullRaster.zob
  */
  
 
-package org.gzigzag;
+package org.gzigzag.flob;
+
+import org.gzigzag.ZZCell;
+import org.gzigzag.ZZLogger;
+import org.gzigzag.errors.ZZError;
 
 /** A flobraster that just bails out (the default raster in case an
     unknown raster was requested). */

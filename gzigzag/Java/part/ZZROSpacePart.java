@@ -20,20 +20,25 @@ ZZROSpacePart.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.part;
 
-/** <b>EXPERIMENTAL:</b> A read-only ZZSpacePart.
+import org.gzigzag.ZZCellHandle;
+import org.gzigzag.ZZSpace;
+import org.gzigzag.ZZSpacePart;
+
+/**
+ * <b>EXPERIMENTAL:</b> A read-only ZZSpacePart.
  */
 
 public abstract class ZZROSpacePart extends ZZSpacePart {
-public static final String rcsid = "$Id: ZZROSpacePart.java,v 1.3 2000/11/06 12:39:39 tjl Exp $";
+    public static final String rcsid = "$Id: ZZROSpacePart.java,v 1.3 2000/11/06 12:39:39 tjl Exp $";
 
     public ZZROSpacePart(ZZSpace space, String id) {
-	super(space, id);
+        super(space, id);
     }
 
     public void setContent(ZZCellHandle c, Object o) {
-	return;
+        return;
     }
 }
 

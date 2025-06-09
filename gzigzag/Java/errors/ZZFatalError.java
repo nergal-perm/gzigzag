@@ -22,19 +22,22 @@ ZZFatalError.java
  */
 /*
  *	Things can happen to browsers in magical libraries that make
- *	having your face pulled off by tentacled monstrosities from 
+ *	having your face pulled off by tentacled monstrosities from
  * 	the Dungeon Dimensions seem a mere light massage by comparison.
  *		- Terry Pratchett, Mort, p. 153
  */
 
-package org.gzigzag;
+package org.gzigzag.errors;
 
-/** An irrecoverable ZZ error. Some consistency error that has 
+/**
+ * An irrecoverable ZZ error. Some consistency error that has
  * made it dangerous to proceed: execution should be ceased at once.
- * 
  */
 
 public class ZZFatalError extends Error {
-public static final String rcsid = "$Id: ZZFatalError.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
-	public ZZFatalError(String s) { super(s); }
+    public static final String rcsid = "$Id: ZZFatalError.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
+
+    public ZZFatalError(String s) {
+        super(s);
+    }
 }

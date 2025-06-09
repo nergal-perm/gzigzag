@@ -20,7 +20,7 @@ ContentStore.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.storage;
 import java.util.*;
 
 /** An interface for storing contents info in.

@@ -21,9 +21,11 @@ ZZRODimension.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
 
-/** A read-only dimension.
+import org.gzigzag.errors.ZZError;
+
+/**
+ * A read-only dimension.
  * This class simply extends ZZDimension by implementing the
  * abstract methods that would modify the dimension by code that
  * simply throws an exception.
@@ -31,15 +33,19 @@ import java.util.*;
  */
 
 public abstract class ZZRODimension extends ZZDimension {
-public static final String rcsid = "$Id: ZZRODimension.java,v 1.10 2000/11/05 19:11:13 tjl Exp $";
-	public abstract ZZCellHandle s(ZZCellHandle c, int steps, ZZObs o); 
-	public void connect(ZZCellHandle c, ZZCellHandle d) {
-		throw new ZZError("Read-only dimension"); 
-	}
-	public void disconnect(ZZCellHandle c, int dir) {
-		throw new ZZError("Read-only dimension"); 
-	}
-	public void excise(ZZCellHandle c) {
-	    // Do nothing.
-	}
+    public static final String rcsid = "$Id: ZZRODimension.java,v 1.10 2000/11/05 19:11:13 tjl Exp $";
+
+    public abstract ZZCellHandle s(ZZCellHandle c, int steps, ZZObs o);
+
+    public void connect(ZZCellHandle c, ZZCellHandle d) {
+        throw new ZZError("Read-only dimension");
+    }
+
+    public void disconnect(ZZCellHandle c, int dir) {
+        throw new ZZError("Read-only dimension");
+    }
+
+    public void excise(ZZCellHandle c) {
+        // Do nothing.
+    }
 }

@@ -20,35 +20,33 @@ TestArchimedes.java
 /*
  * Written by Benja Fallenstein
  */
-package org.gzigzag.test;
-import org.gzigzag.clang.test.*;
-import junit.framework.*;
+package org.gzigzag.arch.junit.archimedes;
 
-/** Test for the Archimedes Clang Procedural Level
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+/**
+ * Test for the Archimedes Clang Procedural Level
  */
 
 public class TestArchimedes {
-public static final String rcsid = "$Id: TestArchimedes.java,v 1.3 2001/04/21 01:00:02 bfallenstein Exp $";
+    public static final String rcsid = "$Id: TestArchimedes.java,v 1.3 2001/04/21 01:00:02 bfallenstein Exp $";
 
-    private static final void pa(String s) { System.out.println(s); }
+    private static final void pa(String s) {
+        System.out.println(s);
+    }
 
     // public TestArchimedes(String s) { super(s); }
 
     public static Test suite() {
-	TestSuite suite = new TestSuite();
-	suite.addTest(new TestSuite(
-		org.gzigzag.clang.test.TestObjects.class));
-	suite.addTest(new TestSuite(
-		org.gzigzag.clang.test.TestPrimitives.class));
-	suite.addTest(new TestSuite(
-		org.gzigzag.clang.test.TestCompounds.class));
-	suite.addTest(new TestSuite(
-		org.gzigzag.clang.test.TestFunctions.class));
-	suite.addTest(new TestSuite(
-		org.gzigzag.clang.test.TestEarlyTermination.class));
-	suite.addTest(new TestSuite(
-	        org.gzigzag.clang.test.TestTemplate.class));
-	return suite;
+        TestSuite suite = new TestSuite();
+        suite.addTest(new TestSuite(TestObjects.class));
+        suite.addTest(new TestSuite(TestPrimitives.class));
+        suite.addTest(new TestSuite(TestCompounds.class));
+        suite.addTest(new TestSuite(TestFunctions.class));
+        suite.addTest(new TestSuite(TestEarlyTermination.class));
+        suite.addTest(new TestSuite(TestTemplate.class));
+        return suite;
     }
 
 }

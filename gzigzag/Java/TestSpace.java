@@ -22,30 +22,37 @@ TestSpace.java
  */
 
 package org.gzigzag;
-import java.io.*;
+
+import java.io.File;
+import org.gzigzag.errors.ZZError;
+import org.gzigzag.storage.DirStreamSet;
+import org.gzigzag.storage.ZZCacheDimSpace;
 
 public class TestSpace {
-    static void p(String s) { System.out.println(s); }
-    
-    static public void test(ZZSpace s) {
-	ZZCell c1 = s.getHomeCell();
-	ZZCell c2 = c1.N("d.1", 1);
-	c2.setText("FOO");
-	p("Id: "+c2.getID());
-	p("Text: "+c2.getText());
-	if(!("FOO".equals(c2.getText())))
-	    throw new ZZError("Not FOO");
+    static void p(String s) {
+        System.out.println(s);
     }
+
+    static public void test(ZZSpace s) {
+        ZZCell c1 = s.getHomeCell();
+        ZZCell c2 = c1.N("d.1", 1);
+        c2.setText("FOO");
+        p("Id: " + c2.getID());
+        p("Text: " + c2.getText());
+        if (!("FOO".equals(c2.getText())))
+            throw new ZZError("Not FOO");
+    }
+
     public static void main(String[] argv) {
-	// try {
-	    File f = new File("/tmp/zzspacetest"+Math.random());
-	    p("File: "+f);
-	    ZZSpace space = new ZZCacheDimSpace(new DirStreamSet(f));
-	    test(space);
-	// } catch(Exception e) {
-	//     ZZLogger.exc(e);
-	// }
-	System.exit(0);
+        // try {
+        File f = new File("/tmp/zzspacetest" + Math.random());
+        p("File: " + f);
+        ZZSpace space = new ZZCacheDimSpace(new DirStreamSet(f));
+        test(space);
+        // } catch(Exception e) {
+        //     ZZLogger.exc(e);
+        // }
+        System.exit(0);
     }
 }
 

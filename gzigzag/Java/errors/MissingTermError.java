@@ -19,12 +19,13 @@ MissingTermError.java
  * Written by Benjamin Fallenstein.
  */
 
-package org.gzigzag;
+package org.gzigzag.errors;
 
-import org.gzigzag.*;
-
-/** An error to indicate a term in a clang program is missing.
+/**
+ * An error to indicate a term in a clang program is missing.
  */
 public class MissingTermError extends SyntaxError {
-    public MissingTermError(String s) { super(s); }
+    public MissingTermError(String s) {
+        super(s);
+    }
 }

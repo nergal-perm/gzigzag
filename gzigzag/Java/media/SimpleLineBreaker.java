@@ -20,7 +20,7 @@ SimpleLineBreaker.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
+package org.gzigzag.media;
 import java.util.*;
 
 public class SimpleLineBreaker extends LineBreaker {

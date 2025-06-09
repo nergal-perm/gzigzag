@@ -21,9 +21,11 @@ EditCursor.java
  * Written by Benja Fallenstein
  */
 package org.gzigzag;
-import java.util.*;
 
-/** A stack of edit cursors.
+import org.gzigzag.errors.ZZError;
+
+/**
+ * A stack of edit cursors.
  * This class also implements the commonly used static methods.
  * <p>
  * When creating a framework within GZZ, you will often want to support a
@@ -53,137 +55,190 @@ import java.util.*;
  */
 
 public class EditCursor extends ZZCursor {
-String rcsid = "$Id: EditCursor.java,v 1.5 2001/04/23 11:38:53 bfallenstein Exp $";
+    String rcsid = "$Id: EditCursor.java,v 1.5 2001/04/23 11:38:53 bfallenstein Exp $";
 
     public static boolean dbg = false;
-    static final void p(String s) { if(dbg) System.out.println(s); }
-    static final void pa(String s) { System.out.println(s); }
+
+    static final void p(String s) {
+        if (dbg) System.out.println(s);
+    }
+
+    static final void pa(String s) {
+        System.out.println(s);
+    }
 
     // ZZCURSOR IMPLEMENTATION
 
     ZZCell ccell;
-    public EditCursor(ZZCell ccell) {
-	this.ccell = ccell;
-    }
-    public ZZCell get() { return get(ccell); }
-    public void set(ZZCell c) { set(ccell, c); }
-    public int getOffs() { return getOffs(ccell); }
-    public void setOffs(int i) { setOffs(ccell, i); }
-    public void pop() { pop(ccell); }
-    public void push(ZZCell c) { push(ccell, c); }
-    public void push(ZZCursor curs) { push(ccell, curs); }
-    public void setStack(ZZCursor[] cursors) { setStack(ccell, cursors); }
-    public void setStack(VirtualEditCursor cur) { setStack(ccell, cur); }
-    public VirtualEditCursor getVirtual() { return getVirtual(ccell); }
-    public void popall() { popall(ccell); }
 
+    public EditCursor(ZZCell ccell) {
+        this.ccell = ccell;
+    }
+
+    public ZZCell get() {
+        return get(ccell);
+    }
+
+    public void set(ZZCell c) {
+        set(ccell, c);
+    }
+
+    public int getOffs() {
+        return getOffs(ccell);
+    }
+
+    public void setOffs(int i) {
+        setOffs(ccell, i);
+    }
+
+    public void pop() {
+        pop(ccell);
+    }
+
+    public void push(ZZCell c) {
+        push(ccell, c);
+    }
+
+    public void push(ZZCursor curs) {
+        push(ccell, curs);
+    }
+
+    public void setStack(ZZCursor[] cursors) {
+        setStack(ccell, cursors);
+    }
+
+    public void setStack(VirtualEditCursor cur) {
+        setStack(ccell, cur);
+    }
+
+    public VirtualEditCursor getVirtual() {
+        return getVirtual(ccell);
+    }
+
+    public void popall() {
+        popall(ccell);
+    }
 
 
     // STATIC INTERFACE
 
-    /** Push a new cell on this edit cursor stack.
-     *  This creates a new cursor on the stack and sets it to the given cell.
+    /**
+     * Push a new cell on this edit cursor stack.
+     * This creates a new cursor on the stack and sets it to the given cell.
      */
     static public final void push(ZZCell cur, ZZCell c) {
-	ZZCursorReal.setcursor(add(cur), c);
+        ZZCursorReal.setcursor(add(cur), c);
     }
 
     static public final void push(ZZCell cur, ZZCursor from) {
-	ZZCursorReal.setcursor(add(cur), from.get());
-	ZZCursorReal.setOffs(cur, from.getOffs());
+        ZZCursorReal.setcursor(add(cur), from.get());
+        ZZCursorReal.setOffs(cur, from.getOffs());
     }
 
-    /** Pop the topmost cursor from this edit stack.
-     *  Raises an error if this would remove the last cursor.
+    /**
+     * Pop the topmost cursor from this edit stack.
+     * Raises an error if this would remove the last cursor.
      */
     static public final void pop(ZZCell cur) {
-	remove(cur);
+        remove(cur);
     }
 
-    /** Set the whole stack at once, from an array of cursors.
+    /**
+     * Set the whole stack at once, from an array of cursors.
      */
     static public final void setStack(ZZCell cur, ZZCursor[] from) {
-	if(from.length == 0)
-	    throw new ZZError("Can't set stack from empty array");
-	popall(cur);
-	ZZCursorReal.set(cur, from[0]);
-	for(int i=1; i<from.length; i++)
-	    push(cur, from[i]);
+        if (from.length==0) throw new ZZError("Can't set stack from empty array");
+        popall(cur);
+        ZZCursorReal.set(cur, from[0]);
+        for (int i = 1; i < from.length; i++)
+            push(cur, from[i]);
     }
 
-    /** Set the whole stack at once, from a virtual edit cursor.
+    /**
+     * Set the whole stack at once, from a virtual edit cursor.
      */
     static public final void setStack(ZZCell cur, VirtualEditCursor from) {
-	setStack(cur, from.getStack());
+        setStack(cur, from.getStack());
     }
 
-    /** Get a virtual stack with the same contents as this one. */
+    /**
+     * Get a virtual stack with the same contents as this one.
+     */
     static public VirtualEditCursor getVirtual(ZZCell cur) {
-	VirtualEditCursor v = new VirtualEditCursor(ZZCursorReal.get(cur));
-	ZZCell c = cur.h("d.cursor-cargo");
-	for(c = c.s("d.cursor-sub"); c != null; c = c.s("d.cursor-sub"))
-	    v.push(ZZCursorReal.get(c));
-	return v;
+        VirtualEditCursor v = new VirtualEditCursor(ZZCursorReal.get(cur));
+        ZZCell c = cur.h("d.cursor-cargo");
+        for (c = c.s("d.cursor-sub"); c!=null; c = c.s("d.cursor-sub"))
+            v.push(ZZCursorReal.get(c));
+        return v;
     }
 
-    /** Pop all cursor but the last one. */
+    /**
+     * Pop all cursor but the last one.
+     */
     static public void popall(ZZCell cur) {
-	ZZCell head = cur.h("d.cursor-cargo");
-	if(head.s("d.cursor-sub") != null) head.disconnect("d.cursor-sub", 1);
+        ZZCell head = cur.h("d.cursor-cargo");
+        if (head.s("d.cursor-sub")!=null) head.disconnect("d.cursor-sub", 1);
     }
 
-    /** Get the cell the given edit cursor is pointing to.
+    /**
+     * Get the cell the given edit cursor is pointing to.
      */
     static public final ZZCell get(ZZCell cur) {
-	return ZZCursorReal.get(top(cur));
+        return ZZCursorReal.get(top(cur));
     }
 
-    /** Set the given edit cursor to point to a cell.
+    /**
+     * Set the given edit cursor to point to a cell.
      */
     static public final void set(ZZCell cur, ZZCell c) {
-	if(cur.s("d.cursor-cargo", -1) == null) cur.N("d.cursor-cargo", -1);
-	ZZCursorReal.setcursor(top(cur), c);
+        if (cur.s("d.cursor-cargo", -1)==null) cur.N("d.cursor-cargo", -1);
+        ZZCursorReal.setcursor(top(cur), c);
     }
 
     static public void set(ZZCell cur, ZZCursor from) {
-	ZZCursorReal.setcursor(top(cur), from.get());
-	ZZCursorReal.setOffs(top(cur), from.getOffs());
+        ZZCursorReal.setcursor(top(cur), from.get());
+        ZZCursorReal.setOffs(top(cur), from.getOffs());
     }
 
-    /** Set the offset of the given edit cursor stack.
+    /**
+     * Set the offset of the given edit cursor stack.
      */
     static public void setOffs(ZZCell cur, int i) {
-	ZZCursorReal.setOffs(top(cur), i);
+        ZZCursorReal.setOffs(top(cur), i);
     }
 
-    /** Get the offset of the given edit cursor stack.
+    /**
+     * Get the offset of the given edit cursor stack.
      */
     static public int getOffs(ZZCell cur) {
-	return ZZCursorReal.getOffs(top(cur));
+        return ZZCursorReal.getOffs(top(cur));
     }
-
 
 
     // INTERNAL STUFF
 
-    /** Get the cursor cell on the top of this edit cursor stack. 
-     *  Topmost == the one pushed last.
+    /**
+     * Get the cursor cell on the top of this edit cursor stack.
+     * Topmost == the one pushed last.
      */
     static protected final ZZCell top(ZZCell cur) {
-	return cur.h("d.cursor-cargo").h("d.cursor-sub", 1);
+        return cur.h("d.cursor-cargo").h("d.cursor-sub", 1);
     }
 
-    /** Create a new cursor cell on top of this stack. Used in push. */
+    /**
+     * Create a new cursor cell on top of this stack. Used in push.
+     */
     static protected final ZZCell add(ZZCell cur) {
-	return cur.h("d.cursor-cargo").h("d.cursor-sub", 1).N("d.cursor-sub");
+        return cur.h("d.cursor-cargo").h("d.cursor-sub", 1).N("d.cursor-sub");
     }
 
-    /** Remove the topmost cursor cell from this stack. Used in pop. */
+    /**
+     * Remove the topmost cursor cell from this stack. Used in pop.
+     */
     static protected final void remove(ZZCell cur) {
-	ZZCell top = cur.h("d.cursor-cargo").h("d.cursor-sub", 1, true);
-	if(top == null)
-	    throw new ZZError("Tried to pop topmost cursor from edit cursor stack");
-	top.delete();
+        ZZCell top = cur.h("d.cursor-cargo").h("d.cursor-sub", 1, true);
+        if (top==null) throw new ZZError("Tried to pop topmost cursor from edit cursor stack");
+        top.delete();
     }
 
 }

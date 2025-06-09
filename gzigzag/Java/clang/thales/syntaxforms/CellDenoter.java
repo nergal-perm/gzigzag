@@ -19,12 +19,14 @@ CellDenoter.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.clang.thales.syntaxform;
+package org.gzigzag.clang.thales.syntaxforms;
 
 import org.gzigzag.*;
 import org.gzigzag.clang.thales.*;
 
 class CellDenoter extends SyntaxForm {
+    private Rep rep;
+
     // Runtime representation: basecell -> rvcc -> instc on d.1 posward
     private final class Rep {
         public ZZCell rvcc;   // pointer to return value pointer
@@ -62,20 +64,18 @@ class CellDenoter extends SyntaxForm {
     public CellDenoter(ZZCell c, Evaluator etor) { super(c, etor); }
 
     public CellDenoter(ZZCell expr, ZZCell rvc, Evaluator etor) {
-        super(SyntaxForm.newRT(rvc.getSpace(), this.getClass()), etor);
+        super(SyntaxForm.newRT(rvc.getSpace(), CellDenoter.class), etor);
         Environment env = getCurrentEnvironment();
         ZZCell instance = env.getDenoterInstance(expr);
-        Rep rep(instance, rvc);
+        this.rep = new Rep(instance, rvc);
     }
 
     public void evalIteration() {
-        Rep rep;
         ZZCursorReal.set(rep.rvc, ZZCursorReal.get(rep.inst));
         finishEval();
     }
 
     public void delete() {
-        Rep rep;
         rep.delete();
     }
 

@@ -21,12 +21,12 @@ ZZClangContextVirtual.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag.clang;
-import org.gzigzag.*;
 
 class EKMVLSVMEVSE {
 }
 
-/** A virtual viewspecs -context object for Clang. The main cursor
+/**
+ * A virtual viewspecs -context object for Clang. The main cursor
  * is virtualized, the others are still global - XXX IS THIS RIGHT?
  */
 

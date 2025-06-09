@@ -20,80 +20,84 @@ ByteScroll.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag;
-import java.util.*;
-import java.io.*;
+package org.gzigzag.media;
 
-/** A scroll of bytes. May later have holes etc. from expunging,
+import java.io.File;
+import java.io.RandomAccessFile;
+import org.gzigzag.ZZLogger;
+import org.gzigzag.errors.ZZError;
+
+/**
+ * A scroll of bytes. May later have holes etc. from expunging,
  * but basically the point is that the address to content mapping
  * is stable and will not change whatever is done.
  */
-public class ByteScroll extends Scroll{
-public static final String rcsid = "$Id: ByteScroll.java,v 1.4 2000/09/19 10:32:00 ajk Exp $";
-	// Cheat: it's just a file
-	private RandomAccessFile f;
+public class ByteScroll extends Scroll {
+    public static final String rcsid = "$Id: ByteScroll.java,v 1.4 2000/09/19 10:32:00 ajk Exp $";
+    // Cheat: it's just a file
+    private RandomAccessFile f;
 
-	private String encoding;
+    private String encoding;
 
-	private boolean readonly;
+    private boolean readonly;
 
-	public ByteScroll(String id, File fn, String mode, String encoding,
-		boolean ro) {
-	super(id);
-	this.encoding = encoding;
-	this.readonly = ro;
-	try {
-		f = new RandomAccessFile(fn, mode);
-	} catch(Exception e) {
-		ZZLogger.exc(e);
-		throw new NullPointerException("Can't get");
-	}
-	}
+    public ByteScroll(String id, File fn, String mode, String encoding, boolean ro) {
+        super(id);
+        this.encoding = encoding;
+        this.readonly = ro;
+        try {
+            f = new RandomAccessFile(fn, mode);
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new NullPointerException("Can't get");
+        }
+    }
 
-	public synchronized byte[] get(long start, int n) {
-	try {
-		f.seek(start);
-		byte[] ret = new byte[n];
-		int r = f.read(ret);
-		if(r!=n) 
-			throw new NullPointerException("NOT ENOUGH!");
-		return ret;
-	} catch(Exception e) {
-		ZZLogger.exc(e);
-		throw new NullPointerException("Can't get");
-	}
-	}
+    public synchronized byte[] get(long start, int n) {
+        try {
+            f.seek(start);
+            byte[] ret = new byte[n];
+            int r = f.read(ret);
+            if (r!=n) throw new NullPointerException("NOT ENOUGH!");
+            return ret;
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new NullPointerException("Can't get");
+        }
+    }
 
-	// XXX ENCODING
-	public String getString(long start, int n) {
-		byte[] b = get(start,n);
-		try {
-		return new String(b, "ISO8859_1");
-		} catch(Exception e) {
-		ZZLogger.exc(e);
-		throw new NullPointerException("Can't get");
-	} 
-	}
+    // XXX ENCODING
+    public String getString(long start, int n) {
+        byte[] b = get(start, n);
+        try {
+            return new String(b, "ISO8859_1");
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new NullPointerException("Can't get");
+        }
+    }
 
-	public long curEnd() { try { return f.length(); 
-	} catch(Exception e) {
-		ZZLogger.exc(e);
-		throw new NullPointerException("Can't get");
-	} 
-	}
+    public long curEnd() {
+        try {
+            return f.length();
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new NullPointerException("Can't get");
+        }
+    }
 
-	public synchronized long append(byte[] bytes) {
-	if(readonly) throw new ZZError("Can't append to readonly scroll");
-	try {
-		long offs = curEnd();
-		f.seek(offs);
-		f.write(bytes);
-		return offs;
-	} catch(Exception e) {
-		ZZLogger.exc(e);
-		throw new NullPointerException("Can't get");
-	}
-	}
+    public synchronized long append(byte[] bytes) {
+        if (readonly) throw new ZZError("Can't append to readonly scroll");
+        try {
+            long offs = curEnd();
+            f.seek(offs);
+            f.write(bytes);
+            return offs;
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new NullPointerException("Can't get");
+        }
+    }
 }
 
 

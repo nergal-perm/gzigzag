@@ -20,14 +20,15 @@ PrimitiveSet.java
 /*
  * Written by Tuomas Lukka
  */
-package org.gzigzag.heraclitus;
-import org.gzigzag.*;
+package org.gzigzag.clang.heraclitus;
 
-/** A set of Heraclitus Clang primitives.
+/**
+ * A set of Heraclitus Clang primitives.
  */
 
 public interface PrimitiveSet {
-String rcsid = "$Id$";
+    String rcsid = "$Id$";
+
     Primitive get(String id);
 }
 

@@ -21,14 +21,18 @@ ZZConnectWouldBreakError.java
  * Written by Tuomas Lukka
  */
 
-package org.gzigzag;
+package org.gzigzag.errors;
 
-/** A connect operation would break an existing connection and is not
+/**
+ * A connect operation would break an existing connection and is not
  * allowed.
  */
 
 public class ZZConnectWouldBreakError extends ZZError {
-public static final String rcsid = "$Id: ZZConnectWouldBreakError.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
-	public ZZConnectWouldBreakError(String s) { super(s); }
+    public static final String rcsid = "$Id: ZZConnectWouldBreakError.java,v 1.3 2000/09/19 10:31:59 ajk Exp $";
+
+    public ZZConnectWouldBreakError(String s) {
+        super(s);
+    }
 }
 

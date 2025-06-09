@@ -20,71 +20,74 @@ DirStreamSet.java
 /*
  * Written by Tuomas Lukka, locking by Antti-Juhani Kaijanaho
  */
-package org.gzigzag;
-import java.util.*;
-import java.io.*;
+package org.gzigzag.storage;
 
-/** A directory implementation of StreamSet
+import java.io.*;
+import org.gzigzag.ZZLogger;
+import org.gzigzag.errors.ZZError;
+import org.gzigzag.errors.ZZFatalError;
+
+/**
+ * A directory implementation of StreamSet
  */
 
 public class DirStreamSet extends StreamSet {
-public static final String rcsid = "$Id: DirStreamSet.java,v 1.5 2000/09/18 14:28:22 tjl Exp $";
+    public static final String rcsid = "$Id: DirStreamSet.java,v 1.5 2000/09/18 14:28:22 tjl Exp $";
     File dir;
 
     public InputStream getInputStream(String id) {
-	try {
-	    File f = new File(dir, id);
-	    if(!f.exists()) return null;
-	    if(!f.canRead()) throw new ZZFatalError("Can't read file");
-	    return new BufferedInputStream(
-		new FileInputStream(f), 4096);
-	} catch(Exception e) {
-	    ZZLogger.exc(e);
-	    throw new ZZFatalError("File problem");
-	}
+        try {
+            File f = new File(dir, id);
+            if (!f.exists()) return null;
+            if (!f.canRead()) throw new ZZFatalError("Can't read file");
+            return new BufferedInputStream(new FileInputStream(f), 4096);
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new ZZFatalError("File problem");
+        }
     }
 
     public OutputStream getAppendStream(String id) {
-	try {
-	    File f = new File(dir, id);
-	    return new BufferedOutputStream(
-		new FileOutputStream(f.getPath(), true));
-	} catch(Exception e) {
-	    ZZLogger.exc(e);
-	    throw new ZZFatalError("File problem");
-	}
+        try {
+            File f = new File(dir, id);
+            return new BufferedOutputStream(new FileOutputStream(f.getPath(), true));
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new ZZFatalError("File problem");
+        }
     }
+
     public boolean exists(String id) {
-	File fn = new File(dir, id);
-	return fn.exists();
+        File fn = new File(dir, id);
+        return fn.exists();
     }
 
     public Writable getWritable(String id) {
-	if(id == null || id.equals(""))
-	    throw new ZZError("Can't use writables with null or empty name");
-	try {
-	    File fn = new File(dir, id);
-	    final RandomAccessFile f = new RandomAccessFile(fn, "rw");
-	    return new FileWritable(f) ;
-	} catch(Exception e) {
-	    ZZLogger.exc(e);
-	    throw new ZZError(" "+e);
-	}
+        if (id==null || id.equals(""))
+            throw new ZZError("Can't use writables with null or empty name");
+        try {
+            File fn = new File(dir, id);
+            final RandomAccessFile f = new RandomAccessFile(fn, "rw");
+            return new FileWritable(f);
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new ZZError(" " + e);
+        }
     }
 
     public DirStreamSet(File dir0) {
-	try {
-	    dir = dir0;
-	    if(dir.exists() && !dir.isDirectory()) {
-		throw new ZZError("MUST BE DIRECTORY!!!! "+dir);
-	    }
-	    if(!dir.exists()) {
-		dir.mkdirs();
-	    }
-	} catch(Exception e) {
-	    ZZLogger.exc(e);
-	    throw new ZZError(" "+e);
-	}
+        try {
+            dir = dir0;
+            if (dir.exists() && !dir.isDirectory()) {
+                throw new ZZError("MUST BE DIRECTORY!!!! " + dir);
+            }
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+        } catch (Exception e) {
+            ZZLogger.exc(e);
+            throw new ZZError(" " + e);
+        }
     }
 }
 

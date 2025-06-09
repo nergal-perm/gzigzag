@@ -19,13 +19,35 @@ Primitive.java
  * Written by Antti-Juhani Kaijanaho.
  */
 
-package org.gzigzag.clang.thales.syntaxform;
+package org.gzigzag.clang.thales.syntaxforms;
 
 import org.gzigzag.*;
 import org.gzigzag.clang.thales.*;
 
 public class Abstraction extends SyntaxForm {
-public static final String rcsid = "$Id: Abstraction.java,v 1.4 2000/10/18 14:35:31 tjl Exp $";
+    public static final String rcsid = "$Id: Abstraction.java,v 1.4 2000/10/18 14:35:31 tjl Exp $";
+
+    public Abstraction(ZZCell cell, Evaluator etor) {
+        super(cell, etor);
+    }
+
+    protected Abstraction(ZZCell c) {
+        super(c);
+    }
+
+    protected Abstraction(ZZSpace s) {
+        super(s);
+    }
+
+    @Override
+    public void evalIteration() {
+
+    }
+
+    @Override
+    protected void delete() {
+
+    }
 
     // Runtime representation basecell -> rvcc -> bodyc -> envc posward on d.1
     private final class Rep {
@@ -36,7 +58,9 @@ public static final String rcsid = "$Id: Abstraction.java,v 1.4 2000/10/18 14:35
         public ZZCell envc;      // pointer to inherited environment
         public Environment env;  // dereferenced envc
 
-        /** Create from existing structure. */
+        /**
+         * Create from existing structure.
+         */
         public Rep() {
             rvcc = getBaseCell().s("d.1", 1);
             rvc = ZZCursorReal.get(rvcc);
@@ -46,10 +70,11 @@ public static final String rcsid = "$Id: Abstraction.java,v 1.4 2000/10/18 14:35
             env = new Environment(ZZCursorReal.get(envc));
         }
 
-        public Rep(ZZCell body, Environment env, ZZCell rvc
+        public Rep(ZZCell body, Environment env, ZZCell rvc) {
+
+        }
 
     }
-    
-    
+
 
 }
