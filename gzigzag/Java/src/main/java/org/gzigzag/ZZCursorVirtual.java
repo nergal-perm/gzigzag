@@ -21,7 +21,6 @@ ZZCursorVirtual.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
 
 /** A virtual cursor.
  * Used by clang to optimize away some puts and gets, e.g. to postpone

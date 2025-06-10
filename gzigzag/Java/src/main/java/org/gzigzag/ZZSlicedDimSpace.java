@@ -21,8 +21,6 @@ ZZSlicedDimSpace.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import org.gzigzag.*;
-import java.util.*;
 
 /** A space consisting of primitive slices.
  * NOTE: the current code does not support changing slice IDs

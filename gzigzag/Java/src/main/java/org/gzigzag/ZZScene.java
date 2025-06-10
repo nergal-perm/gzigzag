@@ -21,7 +21,6 @@ ZZScene.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
 import java.awt.*;
 
 /** An interface for obtaining clicked -objects based on coordinates.

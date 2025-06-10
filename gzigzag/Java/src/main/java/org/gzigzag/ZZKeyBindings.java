@@ -1,7 +1,7 @@
 /*   
-NullZOb.java
+ZZKeyBindings.java
  *    
- *    Copyright (c) 2000, Ted Nelson and Tuomas Lukka
+ *    Copyright (c) 1999, Ted Nelson and Tuomas Lukka
  *
  *    You may use and distribute under the terms of either the GNU Lesser
  *    General Public License, either version 2 of the license or,
@@ -21,20 +21,18 @@ NullZOb.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.awt.*;
-import java.util.*;
-import java.io.*;
+import java.awt.event.*;
 
-/** An extension module implementing some Java functionality.
- * Extension module classes should have a single static public member
- * named <code>module</code> of this type.
- * <p>
- * Clang commands implemented in extension modules are accessed
- * through the Module.FUNCTION interface.
+/** A generic keybindings driver interface.
+ * The point of this interface is to allow experimentation 
+ * with different ways of specifying keybindings in the ZigZag structure.
  */
 
-public class NullZOb implements ZOb {
-String rcsid = "$Id: NullZOb.java,v 1.3 2000/09/19 10:31:58 ajk Exp $";
-    public void setComponent(Component c) {}
-    public String readParams(ZZCell c) { return null; }
+public interface ZZKeyBindings {
+String rcsid = "$Id: ZZKeyBindings.java,v 1.13 2000/09/19 10:31:58 ajk Exp $";
+	/** Perform a particular key or mouse
+	 * event associated with a particular view.
+	 */
+	void perform(InputEvent k, ZZView v, ZZView ctrlv, ZZScene xi);
 }
+

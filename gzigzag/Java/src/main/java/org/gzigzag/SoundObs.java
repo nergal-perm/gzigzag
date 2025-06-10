@@ -21,8 +21,6 @@ SoundObs.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
-import java.io.*;
 
 /** Called by SoundScroll when things happen.
  */

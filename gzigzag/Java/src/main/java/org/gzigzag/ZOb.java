@@ -22,7 +22,6 @@ ZOb.java
  */
  
 package org.gzigzag;
-import java.awt.*;
 
 /** An object whose data is read from the structure.
  * This is an interface implemented by all the objects generated from

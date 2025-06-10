@@ -21,7 +21,6 @@ ZZUpdateManager.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
 
 /** A single view on the structure.
  * This class is mostly to work with ZZUpdateManager which tells these

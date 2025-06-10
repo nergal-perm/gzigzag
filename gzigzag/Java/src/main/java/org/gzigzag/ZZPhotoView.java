@@ -25,7 +25,6 @@ ZZPhotoView.java
 package org.gzigzag;
 import java.awt.*;
 import java.net.*;
-import java.awt.event.*;
 
 /** A simple view showing photos from the cursor.
  * This view shows the image at the URL on the end of d.photo from

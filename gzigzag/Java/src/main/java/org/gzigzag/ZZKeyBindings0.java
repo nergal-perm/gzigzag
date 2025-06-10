@@ -1,5 +1,5 @@
 /*   
-ZZKeyBindings.java
+ZZKeyBindings0.java
  *    
  *    Copyright (c) 1999, Ted Nelson and Tuomas Lukka
  *
@@ -21,19 +21,24 @@ ZZKeyBindings.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.awt.event.*;
-import java.awt.*;
 
-/** A generic keybindings driver interface.
- * The point of this interface is to allow experimentation 
- * with different ways of specifying keybindings in the ZigZag structure.
+/** A very simple keybindings class which is hardcoded for the cursor keys.
+ * Does nothing else. OBSOLETE.
  */
-
-public interface ZZKeyBindings {
-String rcsid = "$Id: ZZKeyBindings.java,v 1.13 2000/09/19 10:31:58 ajk Exp $";
-	/** Perform a particular key or mouse
-	 * event associated with a particular view.
-	 */
-	void perform(InputEvent k, ZZView v, ZZView ctrlv, ZZScene xi);
+ /*
+public class ZZKeyBindings0 implements ZZKeyBindings {
+public static final String rcsid = "$Id: ZZKeyBindings0.java,v 1.7 2000/09/19 10:31:58 ajk Exp $";
+	ZZCell current;
+	public void perform(KeyEvent k, ZZView v) {
+	// XXX Hardcoded - should update automatically from the structure..
+		switch(k.getKeyCode()) {
+			case k.VK_UP: v.move(0,-1); break;
+			case k.VK_DOWN: v.move(0,1); break;
+			case k.VK_LEFT: v.move(-1,0); break;
+			case k.VK_RIGHT: v.move(1,0); break;
+		}
+	}
 }
 
+*/
+class LIJFSELFJLISEFJLSEFSF { }

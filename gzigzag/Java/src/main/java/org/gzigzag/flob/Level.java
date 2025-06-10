@@ -21,7 +21,7 @@ Level.java
  * Written by Benjamin Fallenstein
  */
 
-package org.gzigzag.module;
+package org.gzigzag.flob;
 
 import java.awt.Point;
 import org.gzigzag.*;

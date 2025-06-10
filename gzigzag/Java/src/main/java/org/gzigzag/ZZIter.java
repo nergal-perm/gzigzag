@@ -22,9 +22,6 @@ ZZIter.java
  */
 
 package org.gzigzag;
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.util.*;
 
 /** Help for iterating along ranks in various ways.
  */

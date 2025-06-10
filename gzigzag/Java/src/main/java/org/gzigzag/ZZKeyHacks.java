@@ -21,7 +21,6 @@ ZZKeyHacks.java
  * Written by Benja Fallenstein
  */
 package org.gzigzag;
-import java.awt.*;
 import java.awt.event.*;
 
 /** Hacks to work around Java's inconsistent, ideosyncratic key events.

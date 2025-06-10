@@ -19,12 +19,11 @@ Dump.java
  * Written by Benjamin Fallenstein
  */
 
-package org.gzigzag.module;
+package org.gzigzag;
 
 import java.awt.Point;
 import java.io.*;
 import java.util.Hashtable;
-import org.gzigzag.*;
 import org.gzigzag.errors.ZZError;
 
 /**

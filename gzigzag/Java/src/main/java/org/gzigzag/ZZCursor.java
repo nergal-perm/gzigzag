@@ -21,7 +21,6 @@ ZZCursor.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
 
 /** A thing that points to a cell or to an offset at a cell.
  * It is possible to have read-only ZZCursor objects which will

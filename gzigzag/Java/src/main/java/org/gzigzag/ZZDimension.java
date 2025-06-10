@@ -21,7 +21,6 @@ ZZDimension.java
  * Written by Tuomas Lukka
  */
 package org.gzigzag;
-import java.util.*;
 
 /** Dimension-centric implementation.
  * A ZZDimension represents a single dimension of a space.
