@@ -47,14 +47,14 @@ public class DoubleStepPart extends ZZROStrSpacePart {
     }
 
     public String getText(ZZCellHandle c) {
-        return c.id.substring(c.id.length() - 1);
+        return c.id().substring(c.id().length() - 1);
     }
 
     public ZZDimension getDim(String name) {
         return new Dbl(space.d(name));
     }
 
-    public class Dbl extends ZZRODimension {
+    public static class Dbl extends ZZRODimension {
         ZZDimension dim;
 
         public Dbl(ZZDimension dim) {

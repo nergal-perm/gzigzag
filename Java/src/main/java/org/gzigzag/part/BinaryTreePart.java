@@ -41,7 +41,7 @@ public class BinaryTreePart extends ZZROStrSpacePart {
     }
 
     public String getText(ZZCellHandle c) {
-        return c.id.substring(c.id.length() - 1);
+        return c.id().substring(c.id().length() - 1);
     }
 
     public ZZDimension getDim(String name) {
@@ -53,7 +53,7 @@ public class BinaryTreePart extends ZZROStrSpacePart {
     public class Depth extends ZZRODimension {
         public ZZCellHandle s(ZZCellHandle c, int steps, ZZObs o) {
             // We can go one step
-            if (c.part==null && c.id.equals("1") && steps > 0) {
+            if (c.part==null && c.id().equals("1") && steps > 0) {
                 c = this.space.getCellByID(BinaryTreePart.this, "1", null);
                 steps--;
             }
@@ -61,15 +61,15 @@ public class BinaryTreePart extends ZZROStrSpacePart {
             if (c.part!=BinaryTreePart.this) return null;
 
             while (steps > 0 && c!=null) {
-                c = (ZZCellHandle) this.space.getCellByID(c.id + "0");
+                c = (ZZCellHandle) this.space.getCellByID(c.id() + "0");
                 steps--;
             }
             while (steps < 0 && c!=null) {
                 if (c.part!=BinaryTreePart.this) return null;
-                int len = c.id.length();
-                if (c.id.charAt(len - 1)=='0')
-                    c = (ZZCellHandle) this.space.getCellByID(c.id.substring(0, len - 1));
-                else if (c.id.equals(id + ":" + 1))
+                int len = c.id().length();
+                if (c.id().charAt(len - 1)=='0')
+                    c = (ZZCellHandle) this.space.getCellByID(c.id().substring(0, len - 1));
+                else if (c.id().equals(id + ":" + 1))
                     c = (ZZCellHandle) this.space.getCellByID("1");
                 else
                     c = null;
@@ -85,14 +85,14 @@ public class BinaryTreePart extends ZZROStrSpacePart {
 
             if (steps==0) return c;
             if (steps==1) {
-                int len = c.id.length();
-                if (c.id.charAt(len - 1)=='0')
-                    return (ZZCellHandle) this.space.getCellByID(c.id.substring(0, len - 1) + "1");
+                int len = c.id().length();
+                if (c.id().charAt(len - 1)=='0')
+                    return (ZZCellHandle) this.space.getCellByID(c.id().substring(0, len - 1) + "1");
             } else if (steps==-1) {
-                int len = c.id.length();
-                if (c.id.charAt(len - 1)=='1' &&
-                            c.id.charAt(len - 2)!=':')
-                    return (ZZCellHandle) this.space.getCellByID(c.id.substring(0, len - 1) + "0");
+                int len = c.id().length();
+                if (c.id().charAt(len - 1)=='1' &&
+                            c.id().charAt(len - 2)!=':')
+                    return (ZZCellHandle) this.space.getCellByID(c.id().substring(0, len - 1) + "0");
             }
             return null;
         }

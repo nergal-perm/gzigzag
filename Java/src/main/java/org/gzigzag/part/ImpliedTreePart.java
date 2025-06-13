@@ -54,7 +54,7 @@ public class ImpliedTreePart extends ZZROStrSpacePart {
     }
 
     public String getText(ZZCellHandle c) {
-        return c.id.substring(c.id.length() - 1);
+        return c.id().substring(c.id().length() - 1);
     }
 
     Depth dd = new Depth();
@@ -73,10 +73,10 @@ public class ImpliedTreePart extends ZZROStrSpacePart {
             int level;
 
             if (c.part==ImpliedTreePart.this) {
-                int col = c.id.indexOf(":");
-                int min = c.id.indexOf("-");
-                level = Integer.parseInt(c.id.substring(col + 1, min));
-                c = (ZZCellHandle) this.space.getCellByID(c.id.substring(min + 1));
+                int col = c.id().indexOf(":");
+                int min = c.id().indexOf("-");
+                level = Integer.parseInt(c.id().substring(col + 1, min));
+                c = (ZZCellHandle) this.space.getCellByID(c.id().substring(min + 1));
             } else {
                 // It's either beginning or end of rank.
                 if (c.s("d.1", 1)!=null) {
@@ -97,7 +97,7 @@ public class ImpliedTreePart extends ZZROStrSpacePart {
             if (level==maxlevel) return c;
             return ImpliedTreePart.this.space.getCellByID(
                     ImpliedTreePart.this,
-                    level + "-" + c.id);
+                    level + "-" + c.id());
 
         }
     }
@@ -117,10 +117,10 @@ public class ImpliedTreePart extends ZZROStrSpacePart {
             ZZCell searchFrom;
             int level;
             if (c.part==ImpliedTreePart.this) {
-                int col = c.id.indexOf(":");
-                int min = c.id.indexOf("-");
-                level = Integer.parseInt(c.id.substring(col + 1, min));
-                c = (ZZCellHandle) this.space.getCellByID(c.id.substring(min + 1));
+                int col = c.id().indexOf(":");
+                int min = c.id().indexOf("-");
+                level = Integer.parseInt(c.id().substring(col + 1, min));
+                c = (ZZCellHandle) this.space.getCellByID(c.id().substring(min + 1));
             } else {
                 if (c.s("d.1", 1)==null)
                     return (ZZCellHandle) c.s("d.2", steps);

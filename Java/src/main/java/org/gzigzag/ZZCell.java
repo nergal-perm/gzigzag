@@ -50,9 +50,16 @@ import org.gzigzag.media.Span;
 public abstract class ZZCell extends ZZBaseCell {
     public static final String rcsid = "$Id: ZZCell.java,v 1.77 2001/04/18 23:38:28 bfallenstein Exp $";
 
-    public ZZCell() {
-        super(UUID.randomUUID().toString());
+    /// Primary constructor.
+    public ZZCell(String id) {
+        super(id);
     }
+
+    /// Default constructor that assigns a random GUID to the cell.
+    public ZZCell() {
+        this(UUID.randomUUID().toString());
+    }
+
 
     /**
      * Create a new cell connected to this cell.

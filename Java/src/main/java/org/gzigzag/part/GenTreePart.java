@@ -84,7 +84,7 @@ public class GenTreePart extends ZZSpacePart {
             if (level==maxlevel) return c;
             return GenTreePart.this.space.getCellByID(
                     GenTreePart.this,
-                    level + "-" + c.id);
+                    level + "-" + c.id());
 
         }
     }
@@ -92,7 +92,6 @@ public class GenTreePart extends ZZSpacePart {
     public class Breadth extends ZZDimension {
         public ZZCellHandle s(ZZCellHandle c, int steps, ZZObs o) {
             if (steps==0) return c;
-            ZZCell searchFrom;
             int level;
             if (c.part==GenTreePart.this) {
                 Parsed par = (Parsed) c.parsedID;
@@ -144,9 +143,6 @@ public class GenTreePart extends ZZSpacePart {
 
     public String getText(ZZCellHandle c) {
         return "+";
-    }
-
-    public void setContent(ZZCellHandle c, Object o) {
     }
 
     public Object parseIDPart(String idPart) {

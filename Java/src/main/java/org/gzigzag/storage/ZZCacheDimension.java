@@ -159,7 +159,7 @@ public class ZZCacheDimension extends ZZDimension implements ZZDimStorer {
     }
 
     String cid(Object o) {
-        if (o instanceof ZZCellHandle) return ((ZZCellHandle) o).id;
+        if (o instanceof ZZCellHandle) return ((ZZCellHandle) o).id();
         return (String) o;
     }
 
@@ -173,7 +173,7 @@ public class ZZCacheDimension extends ZZDimension implements ZZDimStorer {
         public void undo(Object[] list, int nth) {
             String c1 = (String) list[nth + 1];
             String c2 = (String) list[nth + 2];
-            if (!s((ZZCellHandle) space.getCellByID(c1), 1, null).id.equals(c2))
+            if (!s((ZZCellHandle) space.getCellByID(c1), 1, null).id().equals(c2))
                 throw new ZZError(
                         "Error when undoing change: disconnect assertion broken");
             cp.remove(c1);
@@ -227,7 +227,7 @@ public class ZZCacheDimension extends ZZDimension implements ZZDimStorer {
         public void redo(Object[] list, int nth) {
             String c1 = (String) list[nth + 1];
             String c2 = (String) list[nth + 2];
-            if (!s((ZZCellHandle) space.getCellByID(c1), 1, null).id.equals(c2))
+            if (!s((ZZCellHandle) space.getCellByID(c1), 1, null).id().equals(c2))
                 throw new ZZError(
                         "Error when redoing change: disconnect assertion broken");
             cp.remove(c1);
@@ -248,7 +248,7 @@ public class ZZCacheDimension extends ZZDimension implements ZZDimStorer {
     Disconnect mydisconnect = new Disconnect();
 
     public ZZCellHandle s(ZZCellHandle c, int steps, ZZObs o) {
-        String s = c.id;
+        String s = c.id();
         if (o!=null) triggers.addObs(s, o);
         if (steps > 0)
             while (steps-- > 0 && s!=null) {
@@ -266,8 +266,8 @@ public class ZZCacheDimension extends ZZDimension implements ZZDimStorer {
 
     public void connect(ZZCellHandle c0, ZZCellHandle d0) {
         if (readonly) throw new ZZError("readonly dimension");
-        String c = c0.id;
-        String d = d0.id;
+        String c = c0.id();
+        String d = d0.id();
         disconnect(c0, 1);
         disconnect(d0, -1);
         cp.put(c, d);
@@ -279,7 +279,7 @@ public class ZZCacheDimension extends ZZDimension implements ZZDimStorer {
 
     public void disconnect(ZZCellHandle c0, int dir) {
         if (readonly) throw new ZZError("readonly dimension");
-        String c = c0.id;
+        String c = c0.id();
         String o;
         if (dir > 0) {
             o = (String) cp.get(c);

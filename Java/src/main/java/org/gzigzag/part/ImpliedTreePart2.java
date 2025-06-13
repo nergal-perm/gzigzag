@@ -60,10 +60,7 @@ public class ImpliedTreePart2 extends ZZSpacePart {
     }
 
     public String getText(ZZCellHandle c) {
-        return c.id.substring(c.id.length() - 1);
-    }
-
-    public void setContent(ZZCellHandle c, Object o) {
+        return c.id().substring(c.id().length() - 1);
     }
 
     public Object parseIDPart(String idPart) {
@@ -118,7 +115,7 @@ public class ImpliedTreePart2 extends ZZSpacePart {
             if (level==maxlevel) return c;
             return ImpliedTreePart2.this.space.getCellByID(
                     ImpliedTreePart2.this,
-                    level + "-" + c.id);
+                    level + "-" + c.id());
 
         }
     }

@@ -37,11 +37,6 @@ package org.gzigzag;
 
 public abstract class ZZCellHandle extends ZZCell {
 public static final String rcsid = "$Id: ZZCellHandle.java,v 1.5 2001/02/23 08:33:37 ajk Exp $";
-
-    /** The cell id.
-     */
-    public final String id;
-
     /** <b>EXPERIMENTAL:</b> the part of the space that this cell is in.
      */
     public final ZZSpacePart part;
@@ -58,13 +53,9 @@ public static final String rcsid = "$Id: ZZCellHandle.java,v 1.5 2001/02/23 08:3
 
     public ZZCellHandle(String id, ZZSpacePart part, Object parsedID) {
         //if (id == null) throw new NullPointerException();
-	this.id = id;
+        super(id);
 	this.part = part;
 	this.parsedID = parsedID;
-    }
-
-    public String id() {
-	return id;
     }
 
     public boolean equals(Object o) {
