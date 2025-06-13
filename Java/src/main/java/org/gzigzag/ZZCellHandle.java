@@ -63,7 +63,7 @@ public static final String rcsid = "$Id: ZZCellHandle.java,v 1.5 2001/02/23 08:3
 	this.parsedID = parsedID;
     }
 
-    public String getID() {
+    public String id() {
 	return id;
     }
 

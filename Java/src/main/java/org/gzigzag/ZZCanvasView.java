@@ -229,7 +229,7 @@ public class ZZCanvasView extends ZZViewComponent {
                 // FOR EACH VIEW SEPARATELY IF DESIRED
                 String s = ZZDefaultSpace.getInbuf(viewCell.getSpace(), false);
                 if (s!=null) {
-                    if (s.equals("")) s = ZZCursorReal.get(viewCell).getID();
+                    if (s.equals("")) s = ZZCursorReal.get(viewCell).id();
                     Dimension d = getSize();
                     gr.drawString(s, 10, d.height - 20);
                 }

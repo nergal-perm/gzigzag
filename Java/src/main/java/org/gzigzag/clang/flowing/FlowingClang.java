@@ -184,7 +184,7 @@ public class FlowingClang {
             return ret;
         }
 
-        p("Flowing Clang step: " + cur.getText() + " (" + cur.getID() + ")");
+        p("Flowing Clang step: " + cur.getText() + " (" + cur.id() + ")");
         ZZCell root = cur.h("d.clone", -1, true);
         String s = cur.getText();
         if (s.equals("") && root==null) {    // GOTO
@@ -220,10 +220,10 @@ public class FlowingClang {
             return called;
         } else {                // UNKNOWN
             if (throwerrs)
-                throw new ZZError("Not a primitive at " + cur.getID() + ": " +
+                throw new ZZError("Not a primitive at " + cur.id() + ": " +
                                           cur.getText());
             ZZLogger.log("Flowing Clang step cannot be executed: Not a " +
-                                 "primitive at " + cur.getID() + ": " + cur.getText());
+                                 "primitive at " + cur.id() + ": " + cur.getText());
             return frame;
         }
     }

@@ -90,7 +90,7 @@ public class ZZUtil {
                     throw new ZZError("Not enough strings: " + i);
                 }
             }
-            p("GetStrs: " + start.getID());
+            p("GetStrs: " + start.id());
             r[i] = start.getText(obs);
         }
         if (i==nmax) return r;

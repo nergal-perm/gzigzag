@@ -573,8 +573,8 @@ public abstract class ZZCell extends ZZBaseCell {
      * Is this the correct implementation?
      */
     public String getGlobalID() {
-        if (getID().indexOf("@")!=-1) return getID();
-        return getID() + "@" + getSpace().getID();
+        if (id().indexOf("@")!=-1) return id();
+        return id() + "@" + getSpace().getID();
     }
 
     /**
@@ -632,7 +632,7 @@ public abstract class ZZCell extends ZZBaseCell {
      * for example <code>'53' (Text in cell)</code>.
      */
     public String toString() {
-        return "'" + getID() + "' (" + getText() + ")";
+        return "'" + id() + "' (" + getText() + ")";
     }
 
 

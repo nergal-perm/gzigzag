@@ -193,7 +193,7 @@ public static final String rcsid = "$Id: ZZKeyBindings1.java,v 1.64 2001/06/09 0
 	ZZCell accursed = ZZCursorReal.get(vcell);
 	ZZCell cvcell = ctrl.getViewcell();
 	ZZCell cur = getMode(vcell);
-	p("BIND CURS: "+cur+" "+(cur!=null?cur.getID():null));
+	p("BIND CURS: "+cur+" "+(cur!=null?cur.id():null));
 	
 	/** Use applitude bindings?
 	 * As not all views show applitude data, views which do have to

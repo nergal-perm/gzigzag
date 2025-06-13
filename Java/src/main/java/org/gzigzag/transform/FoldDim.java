@@ -54,13 +54,13 @@ String rcsid = "$Id: FoldDim.java,v 1.4 2000/10/18 14:35:32 tjl Exp $";
 			donecells.put(c, c);
 			for(; next != null; next=next.s(dim, 1))
 			    donecells.put(next, next);
-		        p("Folded rank beginning from cell #"+c.getID());
+		        p("Folded rank beginning from cell #"+c.id());
 		    }
 		    else
-			p("Rank beginning from cell #"+c.getID()+" already done");
+			p("Rank beginning from cell #"+c.id()+" already done");
 		}
 		else
-		    p("Cell #"+c.getID()+" not placed on "+dim);
+		    p("Cell #"+c.id()+" not placed on "+dim);
 		donecells.put(c, c); // This cell is not in loop
 	    } // Negwards connected cells will be done later
 	}
@@ -68,7 +68,7 @@ String rcsid = "$Id: FoldDim.java,v 1.4 2000/10/18 14:35:32 tjl Exp $";
 	while(e.hasMoreElements()) { // Detect loops
 	    c = (ZZCell)e.nextElement();
 	    if(!donecells.containsKey(c)) { // If it wasn't rank, then it's loop
-		pa("FoldDim couldn't convert cell on loop, #"+c.getID()+
+		pa("FoldDim couldn't convert cell on loop, #"+c.id()+
 		   ", '"+c.getText()+"'");
 	    }
 	}

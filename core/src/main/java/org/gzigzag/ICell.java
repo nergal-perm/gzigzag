@@ -4,5 +4,5 @@ public interface ICell {
     /**
      * Obtain the unique ID for this cell.
      */
-    String getID();
+    String id();
 }

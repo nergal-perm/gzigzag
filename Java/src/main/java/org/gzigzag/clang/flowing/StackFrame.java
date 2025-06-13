@@ -98,7 +98,7 @@ public abstract class StackFrame {
     }
 
     public Data get(ZZCell c, int dir) {
-        p("Start getting for " + c.getText() + " (" + c.getID() + ")");
+        p("Start getting for " + c.getText() + " (" + c.id() + ")");
         ZZCell[] cells = c.readRank("d.1", dir, false);
         if (dir < 0) cells = reverse(cells);
         Object[] result = new Object[cells.length];
@@ -120,7 +120,7 @@ public abstract class StackFrame {
     }
 
     public void put(ZZCell c, Data params, int dir) {
-        p("Start putting for " + c.getText() + " (" + c.getID() + ")");
+        p("Start putting for " + c.getText() + " (" + c.id() + ")");
         Data pars = params!=null ? params:new Data();
         ZZCell[] cells = c.readRank("d.1", dir, false);
         if (dir < 0) cells = reverse(cells);

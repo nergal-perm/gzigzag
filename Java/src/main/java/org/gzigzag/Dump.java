@@ -155,7 +155,7 @@ public class Dump {
     public static void writeDump(ZZCell start, String[] dims, Writer writer) {
         ZZCell[] cs = select(start, dims);
         Hashtable ids = new Hashtable();
-        for (int i = 0; i < cs.length; i++) ids.put(cs[i], cs[i].getID());
+        for (int i = 0; i < cs.length; i++) ids.put(cs[i], cs[i].id());
         writeDump(cs, dims, ids, -1, "Dumped", writer);
     }
 

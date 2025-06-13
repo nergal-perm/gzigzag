@@ -166,7 +166,7 @@ public class ImpliedTreePart2 extends ZZSpacePart {
             if (lastlevel > level) {
                 return ImpliedTreePart2.this.space.getCellByID(
                         ImpliedTreePart2.this,
-                        level + "-" + lasthdr.getID());
+                        level + "-" + lasthdr.id());
             } else {
                 return (ZZCellHandle) lasthdr;
             }

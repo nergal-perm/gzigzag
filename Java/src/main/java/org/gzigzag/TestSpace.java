@@ -37,7 +37,7 @@ public class TestSpace {
         ZZCell c1 = s.getHomeCell();
         ZZCell c2 = c1.N("d.1", 1);
         c2.setText("FOO");
-        p("Id: " + c2.getID());
+        p("Id: " + c2.id());
         p("Text: " + c2.getText());
         if (!("FOO".equals(c2.getText())))
             throw new ZZError("Not FOO");

@@ -386,7 +386,7 @@ public class TreeView implements FlobView, ZOb {
             if (root==null) {
                 py("root is null");
             } else {
-                py("root is " + root.getID());
+                py("root is " + root.id());
             }
 
             // position a cell not in the tree that lies left from the root
@@ -410,7 +410,7 @@ public class TreeView implements FlobView, ZOb {
 
                 if (extracells.containsKey(cell)) extracells.remove(cell);
 
-                py("cell " + cell.getID());
+                py("cell " + cell.id());
                 cellpos.put(cell, new Dimension());
 
                 rv.addElement(cell);
@@ -439,7 +439,7 @@ public class TreeView implements FlobView, ZOb {
 
                 if (cpos.width < startbcoord) cpos.width = startbcoord;
 
-                py("positioning cell " + cell.getID() + " at (" + cpos.width + "," + cpos.height + ")");
+                py("positioning cell " + cell.id() + " at (" + cpos.width + "," + cpos.height + ")");
                 cellpos.put(cell, cpos);
                 celldepth.put(cell, new Integer(currdepth));
                 if (currbcoord < cpos.width + cs.width + gaps[currdepth].width)

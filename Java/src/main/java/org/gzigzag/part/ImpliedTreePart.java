@@ -146,7 +146,7 @@ public class ImpliedTreePart extends ZZROStrSpacePart {
             if (lastlevel > level) {
                 return ImpliedTreePart.this.space.getCellByID(
                         ImpliedTreePart.this,
-                        level + "-" + lasthdr.getID());
+                        level + "-" + lasthdr.id());
             } else {
                 return (ZZCellHandle) lasthdr;
             }

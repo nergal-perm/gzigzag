@@ -123,7 +123,7 @@ public class SpaceDump {
      * Prints a dump of space to pw.
      */
     public static void dump(final PrintWriter pw, final ZZSpace space) {
-        pw.println("H ZZSpaceDump 0 " + encode(space.getHomeCell().getID()));
+        pw.println("H ZZSpaceDump 0 " + encode(space.getHomeCell().id()));
 
         Stack stack = new Stack();
         for (Enumeration e = space.cells(); e.hasMoreElements(); ) {
@@ -141,11 +141,11 @@ public class SpaceDump {
 
             Span s = c.getSpan();
             if (s==null) {
-                pw.println("C " + encode(c.getID()) + " " + encode(c.getText()));
+                pw.println("C " + encode(c.id()) + " " + encode(c.getText()));
             } else {
                 scrolls.put(s.getStart().getScroll(space), "");
                 scrolls.put(s.getEnd().getScroll(space), "");
-                pw.println("SP " + encode(c.getID()) + " " + encode("" + s));
+                pw.println("SP " + encode(c.id()) + " " + encode("" + s));
             }
 
             for (int i = 0; i < dims.length; i++) {
@@ -153,7 +153,7 @@ public class SpaceDump {
                 if (d!=null) {
                     p("processing connection (" + dims[i] + ": " + c + " -> " + d);
                     if (!seen.containsKey(d)) stack.push(d);
-                    pw.println("R " + encode(dims[i]) + " " + encode(c.getID()) + " " + encode(d.getID()));
+                    pw.println("R " + encode(dims[i]) + " " + encode(c.id()) + " " + encode(d.id()));
                 }
                 d = c.s(dims[i], -1);
                 if (d!=null) p("processing connection (" + dims[i] + ": " + d + " -> " + c);

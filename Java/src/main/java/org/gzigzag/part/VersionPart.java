@@ -100,7 +100,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
 
         /** Get a wrapper cell for the cell "old".  */
         public VersionCell getWrapperCell(ZZCellHandle old) {
-            return getWrapperCell(old, old.getID());
+            return getWrapperCell(old, old.id());
         }
 
         public VersionCell getWrapperCell(String oldid) {
@@ -250,7 +250,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
 
         public VersionCell(SpaceElement se, ZZCellHandle old) {
             VersionPart.this.space.super(VersionPart.this,
-                                         new ID(old.getID(), se.stampo.intValue()));
+                                         new ID(old.id(), se.stampo.intValue()));
             this.old = old;
         }
 
@@ -329,7 +329,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
         public ListCell(SpaceElement se) {
             VersionPart.this.space.super(VersionPart.this,
                                          new ID(null, se.stampo.intValue()));
-            p("new ListCell, ID = " + getID());
+            p("new ListCell, ID = " + id());
             this.se = se;
         }
 
@@ -384,7 +384,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
                         // home cell's posward neighbour is stamps[0]
                         inx = -1;
                     } else {
-                        ID id = (ID)parseID(c.getID());
+                        ID id = (ID)parseID(c.id());
                         if (id.id != null) {
                             // not a home cell or a ListCell, so we
                             // want to end up out of bounds
@@ -510,7 +510,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
                 if (c.part != VersionPart.this) return null;
                 ID id = (ID)c.parsedID;
                 if (id.id != null) {
-                    if (!getSpace(id.stamp).getHomeCell().getID().equals(id.id)) {
+                    if (!getSpace(id.stamp).getHomeCell().id().equals(id.id)) {
                         return null;
                     }
                     if (steps != -1) return null;
@@ -542,7 +542,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
             ZZCellHandle oldc = ((VersionCell)c).old;
             if (id.stamp != se.stampo.intValue()) {
                 se.activate();
-                oldc = (ZZCellHandle)se.space.getCellByID(c.getID());
+                oldc = (ZZCellHandle)se.space.getCellByID(c.id());
             }
             ZZCellHandle oldrc = old.s(oldc, steps, o);
             p("oldc = " + oldc + ", oldrc = " + oldrc);
@@ -581,7 +581,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
                     cid = id.id;
                 } else if (c.part == null) {
                     inx = stamps.size();
-                    cid = c.getID();
+                    cid = c.id();
                 } else {
                     return null;
                 }
@@ -626,7 +626,7 @@ public static final String rcsid = "$Id: VersionPart.java,v 1.16 2001/04/17 16:4
     }
 
     public String getText(ZZCellHandle c) {
-        ID id = (ID)parseID(c.getID());
+        ID id = (ID)parseID(c.id());
         if (id.id != null) {
             return getSpace(id.stamp).getText(id.id);
         }

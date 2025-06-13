@@ -8,7 +8,7 @@ public abstract class ZZBaseCell implements ICell {
     }
 
     @Override
-    public String getID() {
+    public String id() {
         return this.id;
     }
 

@@ -53,13 +53,13 @@ String rcsid = "$Id: ReverseDim.java,v 1.6 2000/10/18 14:35:32 tjl Exp $";
 		if (c.s(dim, 1)!=null) {
 		    if(!donecells.containsKey(c)) {
 		        swapRank(c, donecells);
-		        p("Swapped rank beginning from cell #"+c.getID());
+		        p("Swapped rank beginning from cell #"+c.id());
 		    }
 		    else
-			p("Rank beginning from cell #"+c.getID()+" already done");
+			p("Rank beginning from cell #"+c.id()+" already done");
 		}
 		else
-		    p("Cell #"+c.getID()+" not placed on "+dim);
+		    p("Cell #"+c.id()+" not placed on "+dim);
 		donecells.put(c, c); // This cell is not in loop
 	    } // Negwards connected cells will be done later
         }

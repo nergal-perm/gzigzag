@@ -111,7 +111,7 @@ public class GenTreePart extends ZZSpacePart {
             if (lastlevel > level) {
                 return GenTreePart.this.space.getCellByID(
                         GenTreePart.this,
-                        level + "-" + n.getID());
+                        level + "-" + n.id());
             } else {
                 return (ZZCellHandle) n;
             }
