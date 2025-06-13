@@ -305,7 +305,7 @@ public class ZZDimSpace extends ZZSpace {
 
         public ZZCell N(String dim, int dir, ZZObs o, long flags) {
             synchronized (ZZDimSpace.this) {
-                DimCell n = getNewCell(id);
+                DimCell n = getNewCell();
                 insert(dim, dir, n);
                 if (o!=null)
                     d(dim).s(this, dir, o);
@@ -315,7 +315,7 @@ public class ZZDimSpace extends ZZSpace {
 
         public ZZCell N() {
             synchronized (ZZDimSpace.this) {
-                return getNewCell(id);
+                return getNewCell();
             }
         }
 
@@ -442,17 +442,8 @@ public class ZZDimSpace extends ZZSpace {
         return curID;
     }
 
-    // XXX What's this? (compared to the next)
-    protected DimCell getNewCell(String id) {
-        return getNewCell();
-    }
-
     protected DimCell getNewCell() {
         return (DimCell) getCellByID(nextID);
-    }
-
-    public ZZCell newCell() {
-        return getNewCell();
     }
 
     /**

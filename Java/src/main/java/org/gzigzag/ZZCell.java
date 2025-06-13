@@ -95,14 +95,6 @@ public abstract class ZZCell extends ZZBaseCell {
         return N(dim, dir, o);
     }
 
-    public ZZCell getOrNewCell(String dim, int dir) {
-        return getOrNewCell(dim, dir, null);
-    }
-
-    public ZZCell getOrNewCell(String dim) {
-        return getOrNewCell(dim, 1, null);
-    }
-
     /**
      * Create a new cell connected to this cell and attach an observer
      * to it
@@ -143,6 +135,15 @@ public abstract class ZZCell extends ZZBaseCell {
      * @param flags The flags to guide the type of the new cell
      */
     public abstract ZZCell N(String dim, int dir, ZZObs o, long flags);
+
+    public ZZCell getOrNewCell(String dim, int dir) {
+        return getOrNewCell(dim, dir, null);
+    }
+
+    public ZZCell getOrNewCell(String dim) {
+        return getOrNewCell(dim, 1, null);
+    }
+
 
 
     /**
